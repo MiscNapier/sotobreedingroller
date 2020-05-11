@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- © 2020 MISCNAPIER ALL RIGHTS RESERVED -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="toolbox.js"></script>
+  </head>
+
+  <body onload="browserCheck();">
+    <div id="reload">
+      <svg width="30" height="30" viewBox="0 0 24 24" onclick="reload()">
+        <path
+          d="M19,8L15,12H18A6,6 0 0,1 12,18C11,18 10.03,17.75 9.2,17.3L7.74,18.76C8.97,19.54 10.43,20 12,20A8,8 0 0,0 20,12H23M6,12A6,6 0 0,1 12,6C13,6 13.97,6.25 14.8,6.7L16.26,5.24C15.03,4.46 13.57,4 12,4A8,8 0 0,0 4,12H1L5,16L9,12"
+        ></path>
+      </svg>
+    </div>
+
+    <div id="mainContainer" class="wrapperCol">
+      <div id="input" class="wrapperCol">
+        <div id="browser">
+          <br />This roller uses regex lookbehinds, which aren't supported in
+          all browsers.<br />If the roller isn't working as anticipated make
+          sure you're using the latest version of Chrome! :)
+        </div>
+
+        <div id="parents" class="wrapperCol">
+          <div id="parent">
+            <hr>
+            <h2>Parent</h2>
+            <hr>
+            ID <input id="parentID" type="text" size="10" />
+            <div id="buttonExpand" onclick="expand('parentExpand');">
+              <svg viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+            <div id="parentExpand" class="wrapperRow">
+              <span class="label">
+                Geno<br />
+                <input id="parentGeno" type="text" size="25" />
+              </span>
+              <span class="label">
+                Stats<br />
+                <input id="parentStats" type="text" size="10" />
+              </span>
+              <span class="label">
+                Lineage
+                <br />
+                <select id="parentLineage">
+                  <option value="lineage">lineage</option>
+                </select>
+              </span>
+              <span class="label">
+                Fertility
+                <br />
+                <select id="parentFertility">
+                  <option value="fertility">fertility</option>
+                </select>
+              </span>
+              <span class="label">
+                Mutations
+                <br />
+                <select id="parentMutations">
+                  <option value="mutations">mutations</option>
+                </select>
+                <br />
+                <select id="parentMutations">
+                  <option value="mutations">mutations</option>
+                </select>
+              </span>
+              <span class="label">
+                Traits
+                <br />
+                <select id="parentTraits">
+                  <option value="traits">traits</option>
+                </select>
+                <br />
+                <select id="parentTraits">
+                  <option value="traits">traits</option>
+                </select>
+                <br />
+                <select id="parentTraits">
+                  <option value="traits">traits</option>
+                </select>
+              </span>
+            </div>
+          </div>
+
+          <div id="sire"></div>
+
+          <div id="dam"></div>
+        </div>
+      </div>
+
+      <button id="buttonRoll" onclick="buttonRoll();">
+        <h1>Roll</h1>
+      </button>
+
+      <div id="output"></div>
+    </div>
+  </body>
+
+  <script src="setup.js"></script>
+  <script src="script.js"></script>
+</html>

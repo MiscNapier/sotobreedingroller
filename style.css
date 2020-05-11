@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Fondamento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+:root {
+  --bg-colour: rgba(209, 148, 128, 1);
+  --font-colour: rgba(241, 210, 155, 1);
+  --hr-colour: rgba(255, 255, 255, 0);
+  --boxOpaque-colour: rgba(68, 48, 61, 1);
+  --boxTrans-colour: rgba(68, 48, 61, 0.75);
+  --boxAlt-colour: rgba(255, 255, 255, 0.25);
+}
+
+/* body */
+body {
+  background: var(--bg-colour);
+  background-image: url("knt-WaUcTYPfiCU-unsplash.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  color: var(--font-colour);
+  font-family: 'Source Code Pro', monospace;
+}
+
+/* Headings */
+H1,
+H2 {
+  margin: 0;
+  display: inline;
+  font-size: 100%;
+  font-family: 'Fondamento', cursive;
+  letter-spacing: 1px;
+}
+
+H1 {
+  font-size: 200%;
+}
+
+H2 {
+  font-size: 125%;
+}
+
+hr {
+  border: 0px;
+  height: 1px;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  background-image: linear-gradient(to right, var(--hr-colour), var(--font-colour), var(--hr-colour));
+}
+
+br {
+  line-height: 1;
+}
+
+::selection {
+  background: var(--font-colour);
+  color: var(--fontSelected-colour);
+}
+
+/* reload */
+#reload {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+#reload > svg {
+  fill: var(--boxOpaque-colour);
+  opacity: 50%;
+}
+
+#reload > svg:hover {
+  fill: var(--boxOpaque-colour);
+  opacity: 75%;
+}
+
+/* wrappers */
+.wrapperCol {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: no-wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+}
+
+.wrapperRow {
+	display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+	text-align: center;
+}
+
+/* input/output */
+#input,
+#output {
+  margin: 25px;
+  padding: 20px;
+  backdrop-filter: blur(25px);
+  text-align: center;
+}
+
+/* input */
+#input {
+  background-color: var(--boxTrans-colour);
+  border: 1px solid var(--boxTrans-colour);
+  width: 600px;
+}
+
+#parent {
+  display: none;
+}
+
+#sire, 
+#dam {
+  width: 600px;
+}
+
+#sire {
+  margin-bottom: 20px;
+}
+
+#buttonExpand { 
+  display: inline-block;
+  position: relative;
+  top: 7px;
+  width: 25px;
+  height: auto;
+}
+
+#buttonExpand > svg {
+  fill: var(--font-colour);
+  opacity: 50%;
+  transform: rotate(90deg);
+}
+
+#buttonExpand > svg:hover {
+  fill: var(--font-colour);
+  opacity: 75%;
+}
+
+#sireExpand,
+#damExpand {
+  width: 60%;
+  margin: auto;
+}
+
+/* 
+no worky? 
+#sireGeno > input[type="text"],
+#damGeno > input[type="text"] {
+  width: 300px;
+}
+*/
+
+select {
+  text-transform: capitalize;
+}
+
+.label {
+  margin: 6px;
+  font-size: 80%;
+}
+
+/* button roll */
+#buttonRoll {
+  background-color: var(--boxOpaque-colour);
+  border: 1px solid var(--boxOpaque-colour);
+  backdrop-filter: blur(25px);
+  color: var(--font-colour);
+  padding: 5px 10px 5px 10px;
+  text-align: center;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: boldest;
+  white-space: no-wrap;
+  outline: none;
+}
+
+#buttonRoll:active {
+  background-color: var(--button-colour);
+}
+
+#buttonRoll:focus {
+  outline: 0;
+}
+
+@keyframes shake {
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+#buttonRoll:hover {
+  animation: shake 0.4s;
+}
+
+/* output */
+#output {
+  background-color: var(--boxAlt-colour);
+  border: 1px solid var(--boxAlt-colour);
+  user-select: all;
+  width: 500px;
+  color: var(--boxOpaque-colour);
+  font-size: 110%;
+}
