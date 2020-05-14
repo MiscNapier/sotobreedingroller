@@ -78,10 +78,6 @@ select {
 option {
   border: none;
   outline: none;
-}
-
-.option {
-  background-color: var(--boxAlt-colour);
   color: var(--boxOpaque-colour);
 }
 
