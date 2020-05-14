@@ -18,7 +18,7 @@ body {
   background-size: cover;
   background-attachment: fixed;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: auto;
   color: var(--font-colour);
   font-family: 'Source Code Pro', monospace;
 }
@@ -49,13 +49,40 @@ hr {
   background-image: linear-gradient(to right, var(--hr-colour), var(--font-colour), var(--hr-colour));
 }
 
-br {
-  line-height: 1;
-}
-
+/* select box colour */
 ::selection {
   background: var(--font-colour);
   color: var(--fontSelected-colour);
+}
+
+/* misc global restyling */
+button {
+  user-select: none;
+}
+
+input[type="text"] {
+  background-color: var(--boxAlt-colour);
+  color: var(--font-colour);
+  border: 1px solid var(--boxTrans-colour);
+  outline: none;
+}
+
+/* restyling select and option */
+select {
+  background-color: var(--boxAlt-colour);
+  color: var(--font-colour);
+  border: 1px solid var(--boxTrans-colour);
+  outline: none;
+}
+
+option {
+  border: none;
+  outline: none;
+}
+
+.option {
+  background-color: var(--boxAlt-colour);
+  color: var(--boxOpaque-colour);
 }
 
 /* reload */
@@ -108,6 +135,11 @@ br {
   background-color: var(--boxTrans-colour);
   border: 1px solid var(--boxTrans-colour);
   width: 600px;
+  user-select: none;
+}
+
+#header {
+  width: 600px;
 }
 
 #parent {
@@ -119,14 +151,19 @@ br {
   width: 600px;
 }
 
-#sire {
-  margin-bottom: 20px;
+#sireTitle,
+#damTitle {
+  display: inline-block;
+  width: 70px;
+  margin-right: 7px;
+  text-align: right;
 }
 
 #buttonExpand { 
   display: inline-block;
   position: relative;
   top: 7px;
+  right: 8px;
   width: 25px;
   height: auto;
 }
@@ -142,19 +179,15 @@ br {
   opacity: 75%;
 }
 
+#sireExpand {
+  margin-bottom: 20px;
+}
+
 #sireExpand,
 #damExpand {
   width: 60%;
   margin: auto;
 }
-
-/* 
-no worky? 
-#sireGeno > input[type="text"],
-#damGeno > input[type="text"] {
-  width: 300px;
-}
-*/
 
 select {
   text-transform: capitalize;

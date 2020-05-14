@@ -1,28 +1,30 @@
+// rllerState object
 let rollerState = {
   breeding: false,
   error: false,
   random: false,
 };
-rollerState.breeding = true;
+rollerState.random = true;
 
-function rollBreeding() {
-  document.getElementById("output").innerHTML = randomizer(["Testing!","Test...","Boop! :D"]);
-}
-
-function rollError() {
-
-}
-
-function rollRandom() {
-
+// offspring object
+let offspring = {
+  geno: [],
+  // pheno: [],
+  // sex: [],
+  // stats: [],
+  // lineage: [],
+  // fertility: [],
+  // mutations: [],
+  // defects: [],
+  // traits: [],
 }
 
 function buttonRoll() {
   if (rollerState.breeding) {
-    rollBreeding();
+    document.getElementById("output").innerHTML = rollBreeding();
   } else if (rollerState.error) {
-    rollError();
+    document.getElementById("output").innerHTML = rollError();
   } else if (rollerState.random) {
-    rollBreeding();
+    document.getElementById("output").innerHTML = rollRandom();
   }
 }
