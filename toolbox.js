@@ -47,12 +47,59 @@ function randomizer(array) {
   }
 }
 
+// remove duplicates from array
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 // let a = ['a', 1, 'a', 2, '1'];
 // let unique = a.filter( onlyUnique ); // returns ['a', 1, 2, '1']
 
+// return array of values at pos for each array in array
+// simplifyArray([["one",1], ["two",2]], 2);
+function simplifyArray(array, pos) {
+  let output = [];
+  for (let i = 0; i < array.length; i++) {
+    output.push(array[i][pos]);
+  }
+
+  return output;
+}
+
+// return array which contains dom and rec genes
+// recDomArray(["Gn","Tst"]);
+// return ["GnGn","nGn","TstTst","nTst"];
+function recDomArray(array) {
+  let output = [];
+  for (let i = 0; i < array.length; i++) {
+    if (typeof array[i] !== "string") {
+      break;
+    }
+    let dom = array[i] + array[i];
+    let rec = "n" + array[i];
+    output.push(dom);
+    output.push(rec);
+  }
+
+  return output;
+}
+
+// sort array based on another array
+// unsorted = ["b", "c", "a", "d"]
+// sortRef = ["a", "b", "c", "d"];
+function sort(unsorted, sortRef) {
+  sortRef[1].forEach(function (key) {
+    var found = false;
+    unsorted = unsorted.filter(function (item) {
+      if (!found && item == key) {
+        result.push(item);
+        found = true;
+        return false;
+      } else return true;
+    });
+  });
+}
+
+// NOTE: I think this was for combining arrays (duh) but I can't get it working now xD
 function combiner(array) {
   const result = [],
     f = function (prefix = [], array) {
@@ -65,11 +112,15 @@ function combiner(array) {
   return result;
 }
 
+// capitalize every string in array
 function capitalizeArr(array) {
   var newArray = [];
 
-  for (var x = 0; x < array.length; x++) {
-    newArray.push(array[x].charAt(0).toUpperCase() + array[x].slice(1));
+  for (var i = 0; i < array.length; i++) {
+    if (typeof array[i] !== "string") {
+      break;
+    }
+    newArray.push(array[i].charAt(0).toUpperCase() + array[i].slice(1));
   }
   return newArray;
 }
@@ -120,8 +171,8 @@ Object.defineProperties(Array.prototype, {
   },
 });
 
-// roll a list of genes based on array
-// let array = [[50,'gene'],[100,'gene']];
+// roll a list based on array
+// let array = [[50,'string1'],[100,'string2']];
 function rngList(array, roll) {
   let output;
 

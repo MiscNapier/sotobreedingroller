@@ -1,5 +1,5 @@
 // geneList object
-const geneList = {
+let geneList = {
   bases: [
     ["black", /(B|b)(B|b)/],
     ["red", /(O|o)(O|o)/],
@@ -26,7 +26,7 @@ const geneList = {
       ["sheeted", "She"],
       ["shoes", "Sh"],
       ["ticked-tabby", "TcT"],
-      ["tuxedoy", "Tx"],
+      ["tuxedo", "Tx"],
     ],
     uncommon: [
       ["badger", "Bdg"],
@@ -80,6 +80,7 @@ const geneList = {
       ["aura", "Au"],
       ["opaline", "Op"],
     ],
+    sort: [],
   },
   // split markings / modifiers version
   // markings: {
@@ -170,3 +171,15 @@ const geneList = {
   //   ],
   // },
 };
+
+geneList.marksMods.sort = [].concat.apply(
+  [],
+  [
+    recDomArray(simplifyArray(geneList.marksMods.common, 1)),
+    recDomArray(simplifyArray(geneList.marksMods.uncommon, 1)),
+    recDomArray(simplifyArray(geneList.marksMods.rare, 1)),
+    recDomArray(simplifyArray(geneList.marksMods.ultraRare, 1)),
+    recDomArray(simplifyArray(geneList.marksMods.legendary, 1)),
+  ]
+);
+// console.log(geneList.marksMods.sort);
