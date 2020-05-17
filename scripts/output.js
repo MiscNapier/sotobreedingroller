@@ -5,33 +5,33 @@ function rollLitterSize() {
 
   console.log(litterSize);
 }
-// litterSize overide
-litterSize = 1;
 
 // output offspring
 function output(mode) {
   let output = [];
   let string;
   rollLitterSize();
+  litterSize = 1; // litterSize override
   if (litterSize !== 0) {
     for (let i = 0; i < litterSize; i++) {
       mode();
-      string = `Geno: ${offspring.geno}
-      Pheno: ${offspring.pheno}
-      Sex: ${offspring.sex}
-      Stats: ${offspring.stats}
-      Lineage: ${offspring.lineage}
-      Fertility: ${offspring.mutations}`;
-      if (offspring.mutations !== false) {
-        string += `
-        Mutation: ${offspring.mutations}`;
-      }
-      if (offspring.defects !== false) {
-        string += `
-        Defect: ${offspring.defects}`;
-      }
-      string += `
-      Traits: ${offspring.traits}`;
+      string = `Geno: ${offspring.geno}`;
+      // string = `Geno: ${offspring.geno}
+      // Pheno: ${offspring.pheno}
+      // Sex: ${offspring.sex}
+      // Stats: ${offspring.stats}
+      // Lineage: ${offspring.lineage}
+      // Fertility: ${offspring.mutations}`;
+      // if (offspring.mutations !== false) {
+      //   string += `
+      //   Mutation: ${offspring.mutations}`;
+      // }
+      // if (offspring.defects !== false) {
+      //   string += `
+      //   Defect: ${offspring.defects}`;
+      // }
+      // string += `
+      // Traits: ${offspring.traits}`;
       output.push(string);
     }
   } else {
