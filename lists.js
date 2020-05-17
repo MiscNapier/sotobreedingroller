@@ -27,6 +27,7 @@ let geneList = {
       ["shoes", "Sh"],
       ["ticked-tabby", "TcT"],
       ["tuxedo", "Tx"],
+      ["unders", "Un"],
     ],
     uncommon: [
       ["badger", "Bdg"],
