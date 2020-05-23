@@ -103,7 +103,7 @@ function output(mode) {
       Sex: ${offspring.sex}
       Stats: ${offspring.stats}
       Lineage: ${offspring.lineage}
-      Fertility: ${offspring.mutations}`;
+      Fertility: ${offspring.fertility}`;
       if (offspring.mutations !== false) {
         string += `
         Mutation: ${offspring.mutations}`;
