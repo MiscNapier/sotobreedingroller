@@ -1,13 +1,41 @@
 // rollerState object
-let rollerState = {
-  breeding: false,
-  error: false,
-  random: false,
-};
-rollerState.random = true;
+let rollerState;
+function setupRollerState() {
+  function parentCheck(parent) {
+    if (parent.geno === false) {
+      return false;
+    }
+    return true;
+  }
 
-let sire, dam, offspring;
+  if (parentCheck(sire) && parentCheck(dam)) {
+    console.log("Mode: Breeding");
+    rollerState = "breeding";
+  } else if (
+    (parentCheck(sire) && !parentCheck(dam)) ||
+    (!parentCheck(sire) && parentCheck(dam))
+  ) {
+    console.log("Mode: Breeding Error");
+    rollerState = "breeding error";
+  } else if (!parentCheck(sire) && !parentCheck(dam)) {
+    console.log("Mode: Randomizer");
+    rollerState = "randomizer";
+  }
+}
+
+let item, sire, dam, fxi, ixi, offspring;
 function setupObjects() {
+  // item object
+  let itemCheck = getPillSelect("itemPills");
+  // console.log(itemCheck);
+
+  item = {
+    epimedium: itemCheck.indexOf("epimedium") !== -1 ? true : false,
+    oddEyedToad: itemCheck.indexOf("odd-eyed toad") !== -1 ? true : false,
+    gildedFeather: itemCheck.indexOf("gilded feather") !== -1 ? true : false,
+    luckyButterfly: itemCheck.indexOf("lucky butterfly") !== -1 ? true : false,
+  };
+
   // parent objects
   sire = {
     id: getCleaner("sireId"),
@@ -36,26 +64,39 @@ function setupObjects() {
     ],
   };
 
+  // fertility checks
+  fxi =
+    (sire.fertility === "fertile" && dam.fertility === "infertile") ||
+    (sire.fertility === "infertile" && dam.fertility === "fertile") ||
+    false;
+  ixi =
+    (sire.fertility === "infertile" && dam.fertility === "infertile") || false;
+
   // offspring object
   offspring = {
     geno: [],
     // pheno: [],
-    // sex: [],
+    sex: "",
     // stats: [],
     // lineage: [],
-    // fertility: [],
-    // mutations: [],
-    // defects: [],
-    // traits: [],
+    fertility: "",
+    mutations: [],
+    defects: [],
+    traits: [],
   };
+
+  // console.info(item, sire, dam, offspring);
 }
 
 function buttonRoll() {
-  if (rollerState.breeding) {
-    document.getElementById("output").innerHTML = rollBreeding();
-  } else if (rollerState.error) {
+  setupObjects();
+  setupRollerState();
+
+  if (rollerState === "breeding") {
+    output(rollBreeding);
+  } else if (rollerState === "breeding error") {
     document.getElementById("output").innerHTML = rollError();
-  } else if (rollerState.random) {
+  } else if (rollerState === "randomizer") {
     output(rollRandom);
   }
 }

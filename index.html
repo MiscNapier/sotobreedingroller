@@ -23,6 +23,18 @@
           sure you're using the latest version of Chrome! :)
         </div>
 
+        <div id="items" class="wrapperCol">
+          <span id="header">
+            <hr />
+            <h2>Items</h2>
+            <hr />
+          </span>
+
+          <div id="itemPills"></div>
+        </div>
+
+        <br />
+
         <div id="parents" class="wrapperCol">
           <span id="header">
             <hr />
@@ -32,7 +44,7 @@
 
           <div id="parent">
             <span id="parentTitle">Parent ID </span
-            ><input id="parentId" type="text" size="10" />
+            ><input id="parentId" type="text" size="10" placeholder="#000000" />
             <div id="buttonExpand" onclick="expand('parentExpand');">
               <svg viewBox="0 0 24 24">
                 <path
@@ -106,12 +118,12 @@
     </div>
   </body>
 
+  <script src="scripts/geneLists.js"></script>
   <script src="scripts/populateHtml.js"></script>
-  <script src="scripts/lists.js"></script>
+  <script src="sheets/spreadsheet.js"></script>
   <script src="scripts/rollBreeding.js"></script>
   <script src="scripts/rollError.js"></script>
   <script src="scripts/rollRandom.js"></script>
   <script src="scripts/output.js"></script>
   <script src="scripts/rollerState.js"></script>
-  <!-- <script src="sheets/spreadsheet.js"></script> -->
 </html>

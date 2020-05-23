@@ -6,7 +6,7 @@
   --font-colour: rgba(241, 210, 155, 1);
   --hr-colour: rgba(255, 255, 255, 0);
   --boxOpaque-colour: rgba(68, 48, 61, 1);
-  --boxTrans-colour: rgba(68, 48, 61, 0.75);
+  --boxTrans-colour: rgba(68, 48, 61, 0.66);
   --boxAlt-colour: rgba(255, 255, 255, 0.25);
 }
 
@@ -72,7 +72,6 @@ input[type="text"] {
   outline: none;
 }
 
-/* restyling select and option */
 select {
   background-color: var(--boxAlt-colour);
   color: var(--font-colour);
@@ -84,6 +83,39 @@ option {
   border: none;
   outline: none;
   color: var(--boxOpaque-colour);
+}
+
+/* pill selection */
+.pill,
+.pillSelected {
+  user-select: none;
+  padding: 3px;
+  border-radius: 7px;
+  transition: 0.05s;
+  margin: 0px 3px 0px 3px;
+  line-height: 30px;
+  white-space: nowrap;
+}
+
+.pill {
+  background: var(--boxOpaque-colour);
+  color: var(--font-colour);
+}
+
+.pillSelected {
+  background: var(--boxAlt-colour);
+  color: var(--font-colour);
+}
+
+.pill:hover,
+.pillSelected:hover {
+  background: var(--boxAlt-colour);
+  color: var(--font-colour);
+}
+
+.pill:active,
+.pillSelected:active {
+  filter: brightness(110%);
 }
 
 /* reload */
@@ -111,7 +143,7 @@ option {
   flex-wrap: no-wrap;
   justify-content: flex-start;
   align-items: center;
-  width: 80%;
+  width: 90%;
 }
 
 .wrapperRow {
@@ -135,12 +167,18 @@ option {
 #input {
   background-color: var(--boxTrans-colour);
   border: 1px solid var(--boxTrans-colour);
-  width: 600px;
+  width: 650px;
   user-select: none;
 }
 
 #header {
-  width: 600px;
+  width: 650px;
+}
+
+#itemPills {
+  width: 325px;
+  overflow-wrap: break-word;
+  font-size: 80%;
 }
 
 #parent {
@@ -149,7 +187,7 @@ option {
 
 #sire,
 #dam {
-  width: 600px;
+  width: 650px;
 }
 
 #sireTitle,
@@ -188,6 +226,11 @@ option {
 #damExpand {
   width: 60%;
   margin: auto;
+}
+
+::placeholder,
+::placeholder {
+  color: var(--boxTrans-colour);
 }
 
 select {

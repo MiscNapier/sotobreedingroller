@@ -1,9 +1,20 @@
+// populate item select
+populate(
+  "itemPills",
+  ["epimedium", "odd-eyed toad", "gilded feather", "lucky butterfly"],
+  "pillSelect"
+);
+
 // populate parent selects
-populate("parentLineage", ["kane", "skirit", "viperus", "wildcat"], "simple");
+populate(
+  "parentLineage",
+  ["loner", "viperus", "wildcat", "skirit", "kane"],
+  "simple"
+);
 populate("parentFertility", ["fertile", "infertile"], "simple");
-populate("parentTraits1", ["positive", "neutral", "negative"], "simple");
-populate("parentTraits2", ["positive", "neutral", "negative"], "simple");
-populate("parentTraits3", ["positive", "neutral", "negative"], "simple");
+populate("parentTraits1", traitsList, "optGroup");
+populate("parentTraits2", traitsList, "optGroup");
+populate("parentTraits3", traitsList, "optGroup");
 
 // populate sire/dam based on parent skeleton
 function replaceBlock(original, replacement) {
@@ -31,5 +42,9 @@ function expand(id) {
   }
 }
 
-expand("sireExpand");
-expand("damExpand");
+// expand("sireExpand");
+// expand("damExpand");
+
+// populate for testing
+document.getElementById("sireGeno").value = `O/bb/CrCr/nHd/SheShe/nOw`;
+document.getElementById("damGeno").value = `o/bb/AgAg`;

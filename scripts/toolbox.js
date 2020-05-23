@@ -13,6 +13,73 @@ function browserCheck() {
   }
 }
 
+// set cookie
+function setCookie(cname, cvalue, exdays) {
+  // https://bytenota.com/javascript-how-to-save-an-object-in-cookie/
+  let d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+// get cookie
+function getCookie(cname) {
+  // https://bytenota.com/javascript-how-to-save-an-object-in-cookie/
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+// get JSON
+function getJSON(url, callback) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.responseType = "json";
+  xhr.onload = function () {
+    let status = xhr.status;
+    if (status === 200) {
+      callback(null, xhr.response);
+    } else {
+      callback(status, xhr.response);
+    }
+  };
+  xhr.send();
+}
+
+// check if object is empty
+function isEmpty(obj) {
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      return false;
+    }
+  }
+
+  return JSON.stringify(obj) === JSON.stringify({});
+}
+
+// remove falsy keys
+const removeFalsy = (obj) => {
+  let newObj = {};
+  Object.keys(obj).forEach((prop) => {
+    console.log(obj[prop]);
+    if (obj[prop]) {
+      newObj[prop] = obj[prop];
+    }
+  });
+  return newObj;
+};
+
+// reload site
 function reload() {
   window.location.reload(false);
 }
