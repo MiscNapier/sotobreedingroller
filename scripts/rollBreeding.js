@@ -41,8 +41,8 @@ function rollBreeding() {
     // mutations
     let mutationCount = rngList(
       [
-        [10 + bonusMutations, 1],
-        [15 + bonusMutations, 2],
+        [4 + bonusMutations, 1],
+        [2 + bonusMutations, 2],
         [100, 0],
       ],
       100
