@@ -79,7 +79,7 @@ function rollLitterSize() {
   ];
   litterSize += rngList(ttqList, 100);
 
-  console.info(`Litter Size: ${litterSize}`);
+  // console.info(`Litter Size: ${litterSize}`);
 }
 
 // output offspring
@@ -88,7 +88,7 @@ function output(mode) {
 
   if (mode === rollBreeding) {
     rollLitterSize();
-    // litterSize = 1; // litterSize override
+    litterSize = 2; // litterSize override
   } else {
     litterSize = 1;
   }
@@ -125,8 +125,13 @@ function output(mode) {
 
     if (i === 0) {
       element.innerText = ``;
+      if (error.length !== 0) {
+        element.innerText += `${error[0]}
+        
+        `;
+      }
       element.innerText += output[i];
-    } else if (i >= 0) {
+    } else if (i > 0) {
       element.innerText += `
       
       `;

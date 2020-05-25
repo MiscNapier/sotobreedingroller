@@ -46,5 +46,5 @@ function expand(id) {
 // expand("damExpand");
 
 // populate for testing
-document.getElementById("sireGeno").value = `O/bb/CrCr/nHd/SheShe/nOw`;
-document.getElementById("damGeno").value = `o/bb/AgAg`;
+document.getElementById("sireGeno").value = `o/Bb/CrCr/nHd/SheShe/nOw`;
+document.getElementById("damGeno").value = `Oo/Bb/AgAg`;

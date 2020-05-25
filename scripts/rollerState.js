@@ -23,7 +23,7 @@ function setupRollerState() {
   }
 }
 
-let item, sire, dam, fxi, ixi, offspring;
+let item, sire, dam, fxi, ixi, offspring, error;
 function setupObjects() {
   // item object
   let itemCheck = getPillSelect("itemPills");
@@ -75,15 +75,17 @@ function setupObjects() {
   // offspring object
   offspring = {
     geno: [],
-    // pheno: [],
+    pheno: [],
     sex: "",
-    // stats: [],
-    // lineage: [],
+    stats: [],
+    lineage: [],
     fertility: "",
     mutations: [],
     defects: [],
     traits: [],
   };
+
+  error = [];
 
   // console.info(item, sire, dam, offspring);
 }

@@ -1,9 +1,5 @@
 // geneList object
 let geneList = {
-  bases: [
-    ["black", /(B|b)(B|b)/],
-    ["red", /(O|o)(O|o)/],
-  ],
   marksMods: {
     common: [
       ["agouti", "Ag"],

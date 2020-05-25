@@ -151,19 +151,14 @@ function recDomArray(array) {
 }
 
 // sort array based on another array
-// unsorted = ["b", "c", "a", "d"]
-// sortRef = ["a", "b", "c", "d"];
-function sort(unsorted, sortRef) {
-  sortRef[1].forEach(function (key) {
-    var found = false;
-    unsorted = unsorted.filter(function (item) {
-      if (!found && item == key) {
-        result.push(item);
-        found = true;
-        return false;
-      } else return true;
-    });
+// array = ["b", "c", "a", "d"]
+// sortOrder = ["a", "b", "c", "d"];
+function sort(array, sortOrder) {
+  // console.log(array, sortOrder);
+  result = array.sort(function (a, b) {
+    return sortOrder.indexOf(a) - sortOrder.indexOf(b);
   });
+  return result;
 }
 
 // NOTE: I think this was for combining arrays (duh) but I can't get it working now xD
