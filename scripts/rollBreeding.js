@@ -125,7 +125,7 @@ function rollBreeding() {
     }
 
     // defects
-    let inbreeding = true; // testing:
+    let inbreeding = false; // testing:
     if (inbreeding && !item.epimedium) {
       let defectCount = rngList(
         [
