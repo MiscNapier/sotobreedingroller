@@ -7,14 +7,19 @@ populate(
 
 // populate parent selects
 populate(
+  "parentStatus",
+  ["loner", "healer", "commoner", "warrior", "second", "leader"],
+  "simple"
+);
+populate(
   "parentLineage",
   ["loner", "viperus", "wildcat", "skirit", "kane"],
   "simple"
 );
 populate("parentFertility", ["fertile", "infertile"], "simple");
-populate("parentTraits1", traitsList, "optGroup");
-populate("parentTraits2", traitsList, "optGroup");
-populate("parentTraits3", traitsList, "optGroup");
+populate("parentTraits1", listTraits.positive, "simple");
+populate("parentTraits2", listTraits.neutral, "simple");
+populate("parentTraits3", listTraits.negative, "simple");
 
 // populate sire/dam based on parent skeleton
 function replaceBlock(original, replacement) {
@@ -48,3 +53,5 @@ function expand(id) {
 // populate for testing
 document.getElementById("sireGeno").value = `o/Bb/CrCr/nHd/SheShe/nOw`;
 document.getElementById("damGeno").value = `Oo/Bb/AgAg`;
+document.getElementById("sireStats").value = `10	10	10	10	10	10	10	10	10	10	10	10`;
+document.getElementById("damStats").value = `3	10	3	3	10	0	0	0	0	0	0	0`;

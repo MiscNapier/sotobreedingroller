@@ -36,11 +36,16 @@ function setupObjects() {
     luckyButterfly: itemCheck.indexOf("lucky butterfly") !== -1 ? true : false,
   };
 
+  if (item.epimedium) {
+    item.oddEyedToad = false;
+  }
+
   // parent objects
   sire = {
     id: getCleaner("sireId"),
     geno: getCleaner("sireGeno"),
     stats: getCleaner("sireStats"),
+    status: getCleaner("sireStatus"),
     lineage: getCleaner("sireLineage"),
     fertility: getCleaner("sireFertility"),
     mutations: getCleaner("sireMutations"),
@@ -53,7 +58,8 @@ function setupObjects() {
   dam = {
     id: getCleaner("damId"),
     geno: getCleaner("damGeno"),
-    stats: getCleaner("damStats"),
+    stats: getCleaner("damStats").replace(/\D+/g, " ").split(" "),
+    status: getCleaner("damStatus"),
     lineage: getCleaner("damLineage"),
     fertility: getCleaner("damFertility"),
     mutations: getCleaner("damMutations"),
@@ -82,7 +88,7 @@ function setupObjects() {
     fertility: "",
     mutations: [],
     defects: [],
-    traits: [],
+    traits: [[], [], []],
   };
 
   error = [];

@@ -1,3 +1,5 @@
+// @ts-check
+
 // roll litterSize
 let litterSize = 0;
 function rollLitterSize() {
@@ -62,14 +64,6 @@ function rollLitterSize() {
     );
   }
 
-  // fertility overrides
-  if (fxi && rng(100) <= 95) {
-    litterSize = 0;
-  }
-  if (ixi && rng(100) <= 99) {
-    litterSize = 0;
-  }
-
   // twins, triplets, quadruplets
   let ttqList = [
     [1, 3], // add 3 for quadruplets, etc.
@@ -79,10 +73,109 @@ function rollLitterSize() {
   ];
   litterSize += rngList(ttqList, 100);
 
+  // fertility overrides
+  if (fxi && rng(100) <= 95) {
+    litterSize = 0;
+  }
+  if (ixi && rng(100) <= 99) {
+    litterSize = 0;
+  }
+
+  // status ovverides
+  /**
+   * @param {string} sireStatus
+   * @param {string} damStatus
+   */
+  function checkStatus(sireStatus, damStatus) {
+    return (
+      sire.status.indexOf(sireStatus) !== -1 ||
+      dam.status.indexOf(damStatus) !== -1 ||
+      false
+    );
+  }
+
+  // loner combos
+  if (checkStatus("loner", "loner") && rng(100) <= 60) {
+    litterSize = 0;
+  }
+  if (checkStatus("loner", "healer") && rng(100) <= 55) {
+    litterSize = 0;
+  }
+  if (checkStatus("loner", "commoner") && rng(100) <= 50) {
+    litterSize = 0;
+  }
+  if (checkStatus("loner", "warrior") && rng(100) <= 45) {
+    litterSize = 0;
+  }
+  if (checkStatus("loner", "second") && rng(100) <= 40) {
+    litterSize = 0;
+  }
+  if (checkStatus("loner", "leader") && rng(100) <= 60) {
+    litterSize = 0;
+  }
+
+  // healer combos
+  if (checkStatus("healer", "healer") && rng(100) <= 50) {
+    litterSize = 0;
+  }
+  if (checkStatus("healer", "commoner") && rng(100) <= 45) {
+    litterSize = 0;
+  }
+  if (checkStatus("healer", "warrior") && rng(100) <= 40) {
+    litterSize = 0;
+  }
+  if (checkStatus("healer", "second") && rng(100) <= 35) {
+    litterSize = 0;
+  }
+  if (checkStatus("healer", "leader") && rng(100) <= 30) {
+    litterSize = 0;
+  }
+
+  // commoner combos
+  if (checkStatus("commoner", "commoner") && rng(100) <= 40) {
+    litterSize = 0;
+  }
+  if (checkStatus("commoner", "warrior") && rng(100) <= 35) {
+    litterSize = 0;
+  }
+  if (checkStatus("commoner", "second") && rng(100) <= 30) {
+    litterSize = 0;
+  }
+  if (checkStatus("commoner", "leader") && rng(100) <= 25) {
+    litterSize = 0;
+  }
+
+  // warrior combos
+  if (checkStatus("warrior", "warrior") && rng(100) <= 30) {
+    litterSize = 0;
+  }
+  if (checkStatus("warrior", "second") && rng(100) <= 25) {
+    litterSize = 0;
+  }
+  if (checkStatus("warrior", "leader") && rng(100) <= 20) {
+    litterSize = 0;
+  }
+
+  // second combos
+  if (checkStatus("second", "second") && rng(100) <= 20) {
+    litterSize = 0;
+  }
+  if (checkStatus("second", "leader") && rng(100) <= 15) {
+    litterSize = 0;
+  }
+
+  // leader combos
+  if (checkStatus("leader", "leader") && rng(100) <= 10) {
+    litterSize = 0;
+  }
+
   // console.info(`Litter Size: ${litterSize}`);
 }
 
 // output offspring
+/**
+ * @param {{ (): void; (): void; (): void; }} mode
+ */
 function output(mode) {
   let output = []; // all outputs to send to the dom
 

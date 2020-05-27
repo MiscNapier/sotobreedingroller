@@ -228,6 +228,10 @@ option {
   margin: auto;
 }
 
+#sireExpand {
+  margin-bottom: 15px;
+}
+
 ::placeholder,
 ::placeholder {
   color: var(--boxTrans-colour);
@@ -240,6 +244,10 @@ select {
 .label {
   margin: 6px;
   font-size: 80%;
+}
+
+.dropdownTraits {
+  width: 150px;
 }
 
 /* button roll */
@@ -292,4 +300,6 @@ select {
   width: 500px;
   color: var(--boxOpaque-colour);
   font-size: 110%;
+  word-break: break-word;
+  overflow: auto;
 }

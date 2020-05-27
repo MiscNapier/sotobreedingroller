@@ -1,267 +1,247 @@
-// geneList object
-let geneList = {
-  marksMods: {
-    common: [
-      ["agouti", "Ag"],
-      ["bicolored", "Bi"],
-      ["braided-tabby", "BrT"],
-      ["broken-tabby", "BroT"],
-      ["capped", "Cp"],
-      ["colorpointed", "Cpt"],
-      ["collared", "Col"],
-      ["cream", "Cr"],
-      ["freckled", "Fr"],
-      ["gradient", "Gra"],
-      ["hooded", "Hd"],
-      ["mackerel-tabby", "McT"],
-      ["masked", "Msk"],
-      ["mitted", "Mt"],
-      ["pigeon", "Pg"],
-      ["saddled", "Sd"],
-      ["seal", "Se"],
-      ["sheeted", "She"],
-      ["shoes", "Sh"],
-      ["ticked-tabby", "TcT"],
-      ["tuxedo", "Tx"],
-      ["unders", "Un"],
-    ],
-    uncommon: [
-      ["badger", "Bdg"],
-      ["banded", "Bn"],
-      ["blotched-tabby", "BlT"],
-      ["cheetah", "Cht"],
-      ["colorpatched", "Cpa"],
-      ["doubled", "Db"],
-      ["fawn", "Fw"],
-      ["fish-scales", "Sc"],
-      ["jay", "J"],
-      ["merle", "M"],
-      ["ocelot", "Oc"],
-      ["owl", "Ow"],
-      ["panda", "Pnd"],
-      ["pinstriped-tabby", "PsT"],
-      ["quail", "Qu"],
-      ["sepia", "Sep"],
-      ["serval", "Srv"],
-      ["shaded", "Shd"],
-      ["skunk", "Sk"],
-      ["speckled-tabby", "SpT"],
-      ["spotted-tabby", "SpoT"],
-      ["van", "Vn"],
-    ],
-    rare: [
-      ["brindle", "Bri"],
-      ["caribou", "Car"],
-      ["clouded", "Clo"],
-      ["gazelle", "Gz"],
-      ["kudo", "Kd"],
-      ["marbled", "Mb"],
-      ["monarch", "Mon"],
-      ["peafowl", "Pf"],
-      ["python", "Py"],
-      ["rosette", "Ros"],
-      ["silvered", "Slv"],
-      ["smokey-tabby", "SmT"],
-      ["sooty", "St"],
-      ["tortoise", "To"],
-      ["tweed", "Tw"],
-      ["wildebeest", "W"],
-      ["wolf", "Wo"],
-      ["zebra", "Zb"],
-    ],
-    ultraRare: [
-      ["sand", "Snd"],
-      ["volcanic", "V"],
-    ],
-    legendary: [
-      ["aura", "Au"],
-      ["opaline", "Op"],
-    ],
-    sort: [],
-  },
-  // split markings / modifiers version
-  // markings: {
-  //   common: [
-  //     ["bicolored", "Bi"],
-  //     ["braided-tabby", "BrT"],
-  //     ["broken-tabby", "BroT"],
-  //     ["capped", "Cp"],
-  //     ["collared", "Col"],
-  //     ["freckled", "Fr"],
-  //     ["hooded", "Hd"],
-  //     ["mackerel-tabby", "McT"],
-  //     ["masked", "Msk"],
-  //     ["mitted", "Mt"],
-  //     ["pigeon", "Pg"],
-  //     ["seal", "Se"],
-  //     ["sheeted", "She"],
-  //     ["shoes", "Sh"],
-  //     ["ticked-tabby", "TcT"],
-  //     ["tuxedoy", "Tx"],
-  //   ],
-  //   uncommon: [
-  //     ["badger", "Bdg"],
-  //     ["banded", "Bn"],
-  //     ["blotched-tabby", "BlT"],
-  //     ["cheetah", "Cht"],
-  //     ["colorpatched", "Cpa"],
-  //     ["fawn", "Fw"],
-  //     ["fish-scales", "Sc"],
-  //     ["jay", "J"],
-  //     ["ocelot", "Oc"],
-  //     ["owl", "Ow"],
-  //     ["panda", "Pnd"],
-  //     ["pinstriped-tabby", "PsT"],
-  //     ["quail", "Qu"],
-  //     ["serval", "Srv"],
-  //     ["skunk", "Sk"],
-  //     ["speckled-tabby", "SpT"],
-  //     ["spotted-tabby", "SpoT"],
-  //     ["van", "Vn"],
-  //   ],
-  //   rare: [
-  //     ["clouded", "Clo"],
-  //     ["gazelle", "Gz"],
-  //     ["kudo", "Kd"],
-  //     ["monarch", "Mon"],
-  //     ["peafowl", "Pf"],
-  //     ["python", "Py"],
-  //     ["rosette", "Ros"],
-  //     ["smokey-tabby", "SmT"],
-  //     ["sooty", "St"],
-  //     ["tortoise", "To"],
-  //     ["tweed", "Tw"],
-  //     ["wildebeest", "W"],
-  //     ["wolf", "Wo"],
-  //     ["zebra", "Zb"],
-  //   ],
-  //   ultraRare: [],
-  //   legendary: [],
-  // },
-  // modifiers: {
-  //   common: [
-  //     ["agouti", "Ag"],
-  //     ["colorpointed", "Cpt"],
-  //     ["cream", "Cr"],
-  //     ["gradient", "Gra"],
-  //     ["saddled", "Sd"],
-  //   ],
-  //   uncommon: [
-  //     ["doubled", "Db"],
-  //     ["merle", "M"],
-  //     ["sepia", "Sep"],
-  //     ["shaded", "Shd"],
-  //   ],
-  //   rare: [
-  //     ["brindle", "Bri"],
-  //     ["caribou", "Car"],
-  //     ["marbled", "Mb"],
-  //     ["silvered", "Slv"],
-  //   ],
-  //   ultraRare: [
-  //     ["sand", "Snd"],
-  //     ["volcanic", "V"],
-  //   ],
-  //   legendary: [
-  //     ["aura", "Au"],
-  //     ["opaline", "Op"],
-  //   ],
-  // },
+// base genes were not listified, see rollGeno() function in rollBreeding.js
+
+// markings & modifiers
+// basic lists
+const listMarkings = {
+  common: [
+    ["bicolored", "Bi"],
+    ["braided-tabby", "BrT"],
+    ["broken-tabby", "BroT"],
+    ["capped", "Cp"],
+    ["collared", "Col"],
+    ["freckled", "Fr"],
+    ["hooded", "Hd"],
+    ["mackerel-tabby", "McT"],
+    ["masked", "Msk"],
+    ["mitted", "Mt"],
+    ["pigeon", "Pg"],
+    ["seal", "Se"],
+    ["sheeted", "She"],
+    ["shoes", "Sh"],
+    ["ticked-tabby", "TcT"],
+    ["tuxedo", "Tx"],
+  ],
+  uncommon: [
+    ["badger", "Bdg"],
+    ["banded", "Bn"],
+    ["blotched-tabby", "BlT"],
+    ["cheetah", "Cht"],
+    ["colorpatched", "Cpa"],
+    ["fawn", "Fw"],
+    ["fish-scales", "Sc"],
+    ["jay", "J"],
+    ["ocelot", "Oc"],
+    ["owl", "Ow"],
+    ["panda", "Pnd"],
+    ["pinstriped-tabby", "PsT"],
+    ["quail", "Qu"],
+    ["serval", "Srv"],
+    ["skunk", "Sk"],
+    ["speckled-tabby", "SpT"],
+    ["spotted-tabby", "SpoT"],
+    ["van", "Vn"],
+  ],
+  rare: [
+    ["clouded", "Clo"],
+    ["gazelle", "Gz"],
+    ["kudo", "Kd"],
+    ["monarch", "Mon"],
+    ["peafowl", "Pf"],
+    ["python", "Py"],
+    ["rosette", "Ros"],
+    ["smokey-tabby", "SmT"],
+    ["sooty", "St"],
+    ["tortoise", "To"],
+    ["tweed", "Tw"],
+    ["wildebeest", "W"],
+    ["wolf", "Wo"],
+    ["zebra", "Zb"],
+  ],
+  ultraRare: [],
+  legendary: [],
 };
 
-geneList.marksMods.sort = [].concat.apply(
-  [],
-  [
-    recDomArray(simplifyArray(geneList.marksMods.common, 1)),
-    recDomArray(simplifyArray(geneList.marksMods.uncommon, 1)),
-    recDomArray(simplifyArray(geneList.marksMods.rare, 1)),
-    recDomArray(simplifyArray(geneList.marksMods.ultraRare, 1)),
-    recDomArray(simplifyArray(geneList.marksMods.legendary, 1)),
-  ]
-);
-// console.log(geneList.marksMods.sort);
+const listModifiers = {
+  common: [
+    ["agouti", "Ag"],
+    ["colorpointed", "Cpt"],
+    ["cream", "Cr"],
+    ["gradient", "Gra"],
+    ["saddled", "Sd"],
+  ],
+  uncommon: [
+    ["doubled", "Db"],
+    ["merle", "M"],
+    ["sepia", "Sep"],
+    ["shaded", "Shd"],
+  ],
+  rare: [
+    ["brindle", "Bri"],
+    ["caribou", "Car"],
+    ["marbled", "Mb"],
+    ["silvered", "Slv"],
+  ],
+  ultraRare: [
+    ["sand", "Snd"],
+    ["volcanic", "V"],
+  ],
+  legendary: [
+    ["aura", "Au"],
+    ["opaline", "Op"],
+  ],
+};
 
-// random defects / mutations
-const defectsList = [
-  [2, "bald patches"],
-  [3, "bird bones"],
+// label listMarkings and listModifiers automatically
+for (let [key] of Object.entries(listMarkings)) {
+  for (let i = 0; i < listMarkings[key].length; i++) {
+    listMarkings[key][i].push("marking");
+  }
+}
+for (let [key] of Object.entries(listModifiers)) {
+  for (let i = 0; i < listModifiers[key].length; i++) {
+    listModifiers[key][i].push("modifier");
+  }
+}
+
+// create tabby list automatically
+/**
+ * @param {string} rarity
+ */
+function getTabby(rarity) {
+  let output = [];
+
+  for (let i = 0; i < listMarkings[rarity].length; i++) {
+    if (listMarkings[rarity][i][0].search(/tabby/) !== -1) {
+      output.push(listMarkings[rarity][i]);
+    }
+  }
+
+  return output;
+}
+
+const listTabby = {
+  common: getTabby("common"),
+  uncommon: getTabby("uncommon"),
+  rare: getTabby("rare"),
+  ultraRare: getTabby("ultraRare"),
+  legendary: getTabby("legendary"),
+};
+
+// concat and sort listMarkings and listModifiers
+const listMarksMods = {
+  common: listMarkings.common.concat(listModifiers.common).sort(),
+  uncommon: listMarkings.uncommon.concat(listModifiers.uncommon).sort(),
+  rare: listMarkings.rare.concat(listModifiers.rare).sort(),
+  ultraRare: listMarkings.ultraRare.concat(listModifiers.ultraRare).sort(),
+  legendary: listMarkings.legendary.concat(listModifiers.legendary).sort(),
+};
+// console.log(listMarksMods);
+
+// random mutations & defects
+const listRandomMuts = [
+  [3, "black-fur", ["viperus"]],
+  [11, "canyon-fur", ["kane"]],
+  [24, "feather-fur", ["skirit"]],
+  [44, "milk-fur", ["viperus", "kane"]],
+  [
+    55,
+    rngList(
+      [
+        [20, "laced-piebaldism"],
+        [35, "splashed-piebaldism"],
+        [45, "painted-piebaldism"],
+        [95, "dusted-piebaldism"],
+        [100, "clouded-piebaldism"],
+      ],
+      100
+    ),
+    ["viperus"],
+  ],
+  [58, "sky-fur", []],
+  [68, "snow-fur", []],
+  [
+    100,
+    randomizer([
+      "focused-vitiligo",
+      "generalized-vitiligo",
+      "segmented-vitiligo",
+    ]),
+    ["viperus"],
+  ],
+];
+
+const listRandomPhysMuts = [
+  [9, "bobbed-tail", ["kane"]],
+  [12, "chimerism", []],
+  [14, "double-eared", ["skirit"]],
+  [17, "droopy-ears", ["skirit", "kane"]],
+  [19, "elongated-limbs", ["viperus"]],
+  [22, "elongated-tail", ["viperus", "skirit"]],
+  [27, "gigantism", ["viperus"]],
+  [34, "maned", ["viperus", "kane"]],
+  [50, "overgrown-fur", ["viperus"]],
+  [70, "tailless", ["kane"]],
+  [71, "two-tailed", ["skirit"]],
+];
+
+/**
+ * @param {array} array
+ * @param {string} tag
+ */
+function checkTag(array, tag) {
+  return array[2].indexOf(tag) !== -1 || false;
+}
+
+const listRandomMutsBonusViperus = [];
+for (let i = 0; i < listRandomMuts.length; i++) {
+  if (checkTag(listRandomMuts[i], "viperus")) {
+    listRandomMutsBonusViperus.push(listRandomMuts[i][1]);
+  }
+}
+
+const listRandomPhysMutsBonusViperus = [];
+for (let i = 0; i < listRandomPhysMuts.length; i++) {
+  if (checkTag(listRandomPhysMuts[i], "viperus")) {
+    listRandomPhysMutsBonusViperus.push(listRandomPhysMuts[i][1]);
+  }
+}
+
+const listDefects = [
+  [2, "bald-patches"],
+  [3, "bird-bones"],
   [8, "blind"],
-  [10, "breathing problems"],
+  [10, "breathing-problems"],
   [11, "clawless"],
   [12, "conjoined"],
   [17, "deaf"],
   [18, "eyeless"],
-  [19, "fish legs"],
-  [20, "heart failure"],
-  [22, "immune disorder"],
+  [19, "fish-legs"],
+  [20, "heart-failure"],
+  [22, "immune-disorder"],
   [27, "infertile"],
-  [28, "kit legs"],
+  [28, "kit-legs"],
   [32, "mute"],
-  [34, "nerve sensitivity"],
-  [36, "odd paws"],
-  [37, "one eye"],
+  [34, "nerve-sensitivity"],
+  [36, "odd-paws"],
+  [37, "one-eye"],
   [42, "overbite/underbite"],
-  [47, "overgrown claws"],
-  [52, "overgrown fangs"],
-  [56, "partially blind"],
-  [64, "partially deaf"],
+  [47, "overgrown-claws"],
+  [52, "overgrown-fangs"],
+  [56, "partially-blind"],
+  [64, "partially-deaf"],
   [65, "scale-skin"],
-  [68, "spinal deformity"],
-  [71, "split muzzle"],
+  [68, "spinal-deformity"],
+  [71, "split-muzzle"],
   [76, "tiny"],
   [77, "toothless"],
   [78, "two-headed"],
   [100, "two-pawed"],
 ];
 
-const mutationsList = [
-  [3, "black fur"],
-  [11, "canyon fur"],
-  [24, "feather fur"],
-  [44, "milk fur"],
-  [
-    55,
-    rngList(
-      [
-        [20, "laced piebaldism"],
-        [35, "splashed piebaldism"],
-        [45, "painted piebaldism"],
-        [95, "dusted piebaldism"],
-        [100, "clouded piebaldism"],
-      ],
-      100
-    ),
-  ],
-  [58, "sky fur"],
-  [68, "snow fur"],
-  [
-    100,
-    randomizer([
-      "focused vitiligo",
-      "generalized vitiligo",
-      "segmented vitiligo",
-    ]),
-  ],
-];
-
-const physicalMutationsList = [
-  [9, "bobbed tail"],
-  [12, "chimerism"],
-  [14, "double-eared"],
-  [17, "droopy ears"],
-  [19, "elongated limbs"],
-  [22, "elongated tail"],
-  [27, "gigantism"],
-  [34, "maned"],
-  [50, "overgrown fur"],
-  [70, "tailless"],
-  [71, "two-tailed"],
-];
-
 // passable mutations
 
 // traits
-const traitsList = {
+const listTraits = {
   positive: [
     "accessible",
     "active",

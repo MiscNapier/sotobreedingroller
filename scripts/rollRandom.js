@@ -8,10 +8,9 @@ function rollRandom() {
     markMod.push(
       "n" +
         randomizer(
-          randomizer([geneList.marksMods.common, geneList.marksMods.uncommon])
+          randomizer([listMarksMods.common, listMarksMods.uncommon])
         )[1]
     );
-    // markMod.push("n" + randomizer(randomizer([geneList.marksMods.common, geneList.marksMods.uncommon]))[1]);
   }
   markMod = markMod.filter(onlyUnique).sort().join("/");
 
