@@ -58,7 +58,7 @@ function setupObjects() {
             .split(",")
         : [],
     fertility: getCleaner("sireFertility"),
-    mutations: getCleaner("sireMutations"),
+    mutations: [getCleaner("sireMutations1"), getCleaner("sireMutations2")],
     traits: [
       getCleaner("sireTraits1"),
       getCleaner("sireTraits2"),
@@ -82,7 +82,7 @@ function setupObjects() {
             .split(",")
         : [],
     fertility: getCleaner("damFertility"),
-    mutations: getCleaner("damMutations"),
+    mutations: [getCleaner("damMutations1"), getCleaner("damMutations2")],
     traits: [
       getCleaner("damTraits1"),
       getCleaner("damTraits2"),

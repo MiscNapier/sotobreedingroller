@@ -17,6 +17,8 @@ populate(
   "simple"
 );
 populate("parentFertility", ["fertile", "infertile"], "simple");
+populate("parentMutations1", listPassableMutations, "optGroup");
+populate("parentMutations2", listPassableMutations, "optGroup");
 populate("parentTraits1", listTraits.positive, "simple");
 populate("parentTraits2", listTraits.neutral, "simple");
 populate("parentTraits3", listTraits.negative, "simple");

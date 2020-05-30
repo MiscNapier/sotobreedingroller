@@ -255,6 +255,33 @@ const listDefects = [
 ];
 
 // passable mutations
+const listPassableMutations = {
+  common: [
+    "bobbed-tail",
+    "maned",
+    "milk-fur",
+    "overgrown-fur",
+    "focused-vitiligo",
+    "generalized-vitiligo",
+    "segmented-vitiligo",
+  ],
+  uncommon: [
+    "black-fur",
+    "droopy-ears",
+    "elongated-limbs",
+    "elongated-tail",
+    "piebaldism",
+    "laced-piebaldism",
+    "splashed-piebaldism",
+    "painted-piebaldism",
+    "dusted-piebaldism",
+    "clouded-piebaldism",
+    "snow-fur",
+  ],
+  rare: ["canyon-fur", "double-eared", "feather-fur", "gigantism", "tailless"],
+  ultraRare: ["chimerism", "sky-fur", "two-tailed"],
+  legendary: [],
+};
 
 // traits
 const listTraits = {

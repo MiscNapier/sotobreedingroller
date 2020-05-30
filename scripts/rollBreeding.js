@@ -49,6 +49,10 @@ function rollBreeding() {
 
     // additional lineage
     offspring.lineage[1] = sire.lineageAdditional.concat(dam.lineageAdditional);
+
+    // remove main from additional
+    let pos = offspring.lineage[1].indexOf(offspring.lineage[0]) - 1;
+    offspring.lineage[1] = offspring.lineage[1].splice(pos, 1);
   }
 
   function rollFertility() {
@@ -692,6 +696,84 @@ function rollBreeding() {
       }
     })();
 
+    // mutations
+    (() => {
+      // setup
+      let sireMut = randomizer(sire.mutations);
+      let damMut = randomizer(dam.mutations);
+
+      // setup bonuses
+      let bonusMutations = 0;
+      let bonusViperus = 0;
+      let bonusSkirit = 0;
+      let bonusKane = 0;
+
+      if (item.oddEyedToad) {
+        bonusMutations += 20;
+      }
+
+      if (fxi) {
+        bonusMutations += 10;
+      } else if (ixi) {
+        bonusMutations += 50;
+      }
+
+      /**
+       * @param {string} lineage
+       */
+      function checkLineage(lineage) {
+        return offspring.lineage.indexOf(lineage) !== -1 || false;
+      }
+
+      if (checkLineage("loner")) {
+        bonusMutations -= 10;
+      }
+      if (checkLineage("viperus")) {
+        bonusViperus += 10;
+      }
+      if (checkLineage("wildcat")) {
+        bonusMutations += 10;
+      }
+      if (checkLineage("skirit")) {
+        bonusSkirit += 10;
+      }
+      if (checkLineage("kane")) {
+        bonusKane += 10;
+      }
+
+      // logic
+      /**
+       * @param {number} odds
+       * @param {string} gene
+       */
+      function logicMutation(odds, gene) {
+        let check = sireMut === gene || damMut === gene;
+
+        if (gene.search(/piebaldism/) !== -1) {
+          gene = "bicolor";
+        }
+        if (check && rng(100) + bonusMutations <= odds) {
+          offspring.mutations.push(gene);
+        }
+      }
+
+      for (let i = 0; i < listPassableMutations.common.length; i++) {
+        logicMutation(20, listPassableMutations.common[i]);
+      }
+      for (let i = 0; i < listPassableMutations.uncommon.length; i++) {
+        logicMutation(15, listPassableMutations.uncommon[i]);
+      }
+      for (let i = 0; i < listPassableMutations.rare.length; i++) {
+        logicMutation(10, listPassableMutations.rare[i]);
+      }
+      for (let i = 0; i < listPassableMutations.ultraRare.length; i++) {
+        logicMutation(5, listPassableMutations.ultraRare[i]);
+      }
+      for (let i = 0; i < listPassableMutations.legendary.length; i++) {
+        logicMutation(1, listPassableMutations.legendary[i]);
+      }
+    })();
+
     // overrides
     (() => {
       // convert offspring.geno type
@@ -725,11 +807,18 @@ function rollBreeding() {
           // listTabbyRegex.legendary,
         ].join("|");
         let regexAll = new RegExp(`${listRegexAll}`, "g");
-        console.log(listRegexAll);
+        // console.log(listRegexAll);
 
         let check = offspring.geno.search(regexAll) !== -1 || false;
         if (!check) return;
-        console.log("yas?");
+        let selected = randomizer(offspring.geno.match(regexAll));
+        let regexSelected = new RegExp(`${selected}`);
+        listRegexAll = listRegexAll
+          .replace(regexSelected, "")
+          .replace(/\|\|/g, "|")
+          .replace(/^\|/, "");
+        let regexRemove = new RegExp(`${listRegexAll}`, "g");
+        offspring.geno = offspring.geno.replace(regexRemove, "");
       })();
 
       // modifier override

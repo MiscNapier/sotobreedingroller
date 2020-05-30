@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 // Version
 // 1.1
 
@@ -262,6 +260,11 @@ function toggleDisplay(checkbox, toggle) {
   }
 }
 
+/**
+ * @param {string} id
+ * @param {array|object} array
+ * @param {string} mode - simple, optGroup, geneList, pillSelect
+ */
 function populate(id, array, mode) {
   // modes:
   // simple ---> array = ['option','option'];
