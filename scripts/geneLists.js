@@ -112,14 +112,30 @@ function getTabby(rarity) {
 
   for (let i = 0; i < listMarkings[rarity].length; i++) {
     if (listMarkings[rarity][i][0].search(/tabby/) !== -1) {
-      output.push(listMarkings[rarity][i]);
+      let gene = listMarkings[rarity][i][1];
+      output.push(`n${gene}|${gene}${gene}`);
     }
   }
 
-  return output;
+  return output.join("|");
 }
 
-const listTabby = {
+// /**
+//  * @param {string} rarity
+//  */
+// function getTabby(rarity) {
+//   let output = [];
+
+//   for (let i = 0; i < listMarkings[rarity].length; i++) {
+//     if (listMarkings[rarity][i][0].search(/tabby/) !== -1) {
+//       output.push(listMarkings[rarity][i]);
+//     }
+//   }
+
+//   return output;
+// }
+
+const listTabbyRegex = {
   common: getTabby("common"),
   uncommon: getTabby("uncommon"),
   rare: getTabby("rare"),

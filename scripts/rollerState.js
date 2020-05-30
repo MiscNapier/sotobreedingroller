@@ -44,9 +44,19 @@ function setupObjects() {
   sire = {
     id: getCleaner("sireId"),
     geno: getCleaner("sireGeno"),
-    stats: getCleaner("sireStats"),
+    stats:
+      getCleaner("sireStats") !== false
+        ? getCleaner("sireStats").replace(/\D+/g, " ").split(" ")
+        : getCleaner("sireStats"),
     status: getCleaner("sireStatus"),
     lineage: getCleaner("sireLineage"),
+    lineageAdditional:
+      getCleaner("sireLineageAdditional") !== false
+        ? getCleaner("sireLineageAdditional")
+            .replace(/\s/g, "")
+            .toLowerCase()
+            .split(",")
+        : [],
     fertility: getCleaner("sireFertility"),
     mutations: getCleaner("sireMutations"),
     traits: [
@@ -58,9 +68,19 @@ function setupObjects() {
   dam = {
     id: getCleaner("damId"),
     geno: getCleaner("damGeno"),
-    stats: getCleaner("damStats").replace(/\D+/g, " ").split(" "),
+    stats:
+      getCleaner("damStats") !== false
+        ? getCleaner("damStats").replace(/\D+/g, " ").split(" ")
+        : getCleaner("damStats"),
     status: getCleaner("damStatus"),
     lineage: getCleaner("damLineage"),
+    lineageAdditional:
+      getCleaner("damLineageAdditional") !== false
+        ? getCleaner("damLineageAdditional")
+            .replace(/\s/g, "")
+            .toLowerCase()
+            .split(",")
+        : [],
     fertility: getCleaner("damFertility"),
     mutations: getCleaner("damMutations"),
     traits: [
@@ -84,7 +104,7 @@ function setupObjects() {
     pheno: [],
     sex: "",
     stats: [],
-    lineage: [],
+    lineage: [[], []],
     fertility: "",
     mutations: [],
     defects: [],

@@ -17,17 +17,38 @@ function rollBreeding() {
       // error.push("Illegal stats present.");
       return;
     }
-    for (let i = 0; i < 12; i++) {
-      // code & things :D
+
+    let x = [rng(12), rng(12), rng(12)];
+
+    while (x[0] === x[1] || x[0] === x[2]) {
+      x[0] = rng(12);
+    }
+    while (x[1] === x[2]) {
+      x[1] = rng(12);
+    }
+
+    x.sort();
+    offspring.stats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    for (let i = 0; i < 3; i++) {
+      offspring.stats[x[i] - 1] =
+        randomizer([(sire.stats[x[i] - 1], dam.stats[x[i] - 1])]) * 0.1;
+      if (offspring.stats[x[i] - 1] !== 0) {
+        offspring.stats[x[i] - 1] = offspring.stats[x[i] - 1].toFixed(1);
+      }
     }
   }
 
   function rollLineage() {
+    // main lineage
     let odds = [
       [45, sire.lineage],
       [100, dam.lineage],
     ];
-    offspring.lineage.push(rngList(odds, 100));
+    offspring.lineage[0] = rngList(odds, 100);
+
+    // additional lineage
+    offspring.lineage[1] = sire.lineageAdditional.concat(dam.lineageAdditional);
   }
 
   function rollFertility() {
@@ -160,512 +181,563 @@ function rollBreeding() {
 
   function rollGeno() {
     // base genes
-    // black
-    /**
-     * @param {RegExp} regex
-     * @param {string[]} sortOrder
-     */
-    function logicBasePunnet(regex, sortOrder) {
-      let sireGene = sire.geno.match(regex);
-      let damGene = dam.geno.match(regex);
-      let p1 = [sireGene[1], damGene[1]];
-      let p2 = [sireGene[1], damGene[2]];
-      let p3 = [damGene[1], sireGene[2]];
-      let p4 = [sireGene[2], damGene[2]];
-      offspring.geno.push(
-        sort(randomizer([p1, p2, p3, p4]), sortOrder).join("")
-      );
-    }
-
-    // BB/Bb/bb
-    let regexBlack = /\b(B|b)(B|b)\b/;
-    if (
-      sire.geno.search(regexBlack) !== -1 &&
-      dam.geno.search(regexBlack) !== -1
-    ) {
-      let sortOrder = ["B", "b"];
-      logicBasePunnet(regexBlack, sortOrder);
-    }
-
-    // red
-    /**
-     * @param {RegExp} regex
-     */
-    function logicRed(regex) {
-      let sireGene = sire.geno.match(regex)[0];
-      let damGene = dam.geno.match(regex)[0];
-      // console.log(sireGene, damGene);
-
-      let offspringGene;
-      if (sireGene === "O" && damGene === "OO") {
-        offspringGene = ["O", "O"];
-      }
-      if (sireGene === "o" && damGene === "OO") {
-        offspringGene = ["O", "o"];
-      }
-      if (sireGene === "O" && damGene === "Oo") {
-        offspringGene = randomizer([
-          ["O", "O"],
-          ["O", "o"],
-        ]);
-      }
-      if (sireGene === "o" && damGene === "Oo") {
-        offspringGene = randomizer([
-          ["O", "o"],
-          ["o", "o"],
-        ]);
-      }
-      if (sireGene === "o" && damGene === "oo") {
-        offspringGene = randomizer([["o", "o"]]);
+    (() => {
+      // black
+      /**
+       * @param {RegExp} regex
+       * @param {string[]} sortOrder
+       */
+      function logicBasePunnet(regex, sortOrder) {
+        let sireGene = sire.geno.match(regex);
+        let damGene = dam.geno.match(regex);
+        let p1 = [sireGene[1], damGene[1]];
+        let p2 = [sireGene[1], damGene[2]];
+        let p3 = [damGene[1], sireGene[2]];
+        let p4 = [sireGene[2], damGene[2]];
+        offspring.geno.push(
+          sort(randomizer([p1, p2, p3, p4]), sortOrder).join("")
+        );
       }
 
-      if (offspringGene !== undefined) {
-        if (offspring.sex === "tom-cat") {
-          offspring.geno.push(randomizer(offspringGene));
+      // BB/Bb/bb
+      let regexBlack = /\b(B|b)(B|b)\b/;
+      if (
+        sire.geno.search(regexBlack) !== -1 &&
+        dam.geno.search(regexBlack) !== -1
+      ) {
+        let sortOrder = ["B", "b"];
+        logicBasePunnet(regexBlack, sortOrder);
+      }
+
+      // red
+      /**
+       * @param {RegExp} regex
+       */
+      function logicRed(regex) {
+        let sireGene = sire.geno.match(regex)[0];
+        let damGene = dam.geno.match(regex)[0];
+        // console.log(sireGene, damGene);
+
+        let offspringGene;
+        if (sireGene === "O" && damGene === "OO") {
+          offspringGene = ["O", "O"];
         }
-        if (offspring.sex === "she-cat" || offspring.sex === "sexless") {
-          offspring.geno.push(offspringGene.join(""));
+        if (sireGene === "o" && damGene === "OO") {
+          offspringGene = ["O", "o"];
         }
-      } else {
-        error.push("Incompatible red genes present.");
+        if (sireGene === "O" && damGene === "Oo") {
+          offspringGene = randomizer([
+            ["O", "O"],
+            ["O", "o"],
+          ]);
+        }
+        if (sireGene === "o" && damGene === "Oo") {
+          offspringGene = randomizer([
+            ["O", "o"],
+            ["o", "o"],
+          ]);
+        }
+        if (sireGene === "o" && damGene === "oo") {
+          offspringGene = randomizer([["o", "o"]]);
+        }
+
+        if (offspringGene !== undefined) {
+          if (offspring.sex === "tom-cat") {
+            offspring.geno.push(randomizer(offspringGene));
+          }
+          if (offspring.sex === "she-cat" || offspring.sex === "sexless") {
+            offspring.geno.push(offspringGene.join(""));
+          }
+        } else {
+          error.push("Incompatible red genes present.");
+        }
       }
-    }
 
-    function femaleSireOverride() {
-      let check = sire.geno.match(/\b(OO|Oo|oo)\b/) || false;
-      if (!check) return;
-      sire.geno = sire.geno.replace(/\b(OO|Oo)\b/, "O").replace(/\boo\b/, "o");
-      error.push("Sire with she-cat red overriden.");
-    }
+      function femaleSireOverride() {
+        let check = sire.geno.match(/\b(OO|Oo|oo)\b/) || false;
+        if (!check) return;
+        sire.geno = sire.geno
+          .replace(/\b(OO|Oo)\b/, "O")
+          .replace(/\boo\b/, "o");
+        error.push("Sire with she-cat red overriden.");
+      }
 
-    function maleDamOverride() {
-      let check = dam.geno.match(/\b(O|o)\b/) || false;
-      if (!check) return;
-      dam.geno = dam.geno.replace(/\b(O)\b/, "OO").replace(/\bo\b/, "oo");
-      error.push("Dam with tom-cat red overriden.");
-    }
+      function maleDamOverride() {
+        let check = dam.geno.match(/\b(O|o)\b/) || false;
+        if (!check) return;
+        dam.geno = dam.geno.replace(/\b(O)\b/, "OO").replace(/\bo\b/, "oo");
+        error.push("Dam with tom-cat red overriden.");
+      }
 
-    // O/o || OO/Oo/oo
-    let regexRed = /\b(O|o)(O|o|)\b/;
-    if (sire.geno.search(regexRed) !== -1 && dam.geno.search(regexRed) !== -1) {
-      femaleSireOverride();
-      maleDamOverride();
-      logicRed(regexRed);
-    }
+      // O/o || OO/Oo/oo
+      let regexRed = /\b(O|o)(O|o|)\b/;
+      if (
+        sire.geno.search(regexRed) !== -1 &&
+        dam.geno.search(regexRed) !== -1
+      ) {
+        femaleSireOverride();
+        maleDamOverride();
+        logicRed(regexRed);
+      }
+    })();
 
     // markings & modifiers
-    // setup bonuses
-    let bonusMarkings = 0;
-    let bonusModifiers = 0;
-    let bonusHealer = 0;
-    let bonusCommoner = 0;
-    let bonusWarrior = 0;
-    let bonusSecond = 0;
-    let bonusLeader = 0;
+    (() => {
+      // setup bonuses
+      let bonusMarkings = 0;
+      let bonusModifiers = 0;
+      let bonusHealer = 0;
+      let bonusCommoner = 0;
+      let bonusWarrior = 0;
+      let bonusSecond = 0;
+      let bonusLeader = 0;
 
-    // lineage bonuses
-    /**
-     * @param {string} lineage
-     */
-    function checkLineage(lineage) {
-      return offspring.lineage.indexOf(lineage) !== -1 || false;
-    }
-
-    if (checkLineage("wildcat")) {
-      bonusMarkings += 5;
-    }
-
-    // status bonuses
-    /**
-     * @param {string} status
-     */
-    function checkStatus(status) {
-      return (
-        sire.status.indexOf(status) !== -1 ||
-        dam.status.indexOf(status) !== -1 ||
-        false
-      );
-    }
-
-    if (checkStatus("healer")) {
-      bonusHealer += 10;
-    }
-    if (checkStatus("commoner")) {
-      bonusCommoner += 5;
-    }
-    if (checkStatus("warrior")) {
-      bonusWarrior += 5;
-    }
-    if (checkStatus("second")) {
-      bonusSecond += 5;
-    }
-    if (checkStatus("leader")) {
-      bonusLeader += 5;
-    }
-
-    // common
-    /**
-     * @param {string} gene
-     * @param {number} bonus
-     */
-    function logicMarksModsCommon(gene, bonus) {
-      let dom = `${gene}${gene}`;
-      let rec = `n${gene}`;
-      let none = false;
-      let regexVar = `\\b(${dom}|${rec})\\b`;
-      let regex = new RegExp(regexVar, "");
-      let sireGene =
-        sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
-      let damGene =
-        dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
-
+      // lineage bonuses
       /**
-       * @param {string} geneA
-       * @param {string|boolean} geneB
+       * @param {string} lineage
        */
-      function checkGene(geneA, geneB) {
+      function checkLineage(lineage) {
+        return offspring.lineage.indexOf(lineage) !== -1 || false;
+      }
+
+      if (checkLineage("wildcat")) {
+        bonusMarkings += 5;
+      }
+
+      // status bonuses
+      /**
+       * @param {string} status
+       */
+      function checkStatus(status) {
         return (
-          (sireGene === geneA && damGene === geneB) ||
-          (sireGene === geneB && damGene === geneA) ||
+          sire.status.indexOf(status) !== -1 ||
+          dam.status.indexOf(status) !== -1 ||
           false
         );
       }
 
-      if (checkGene(rec, none)) {
-        let odds = [[35 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
+      if (checkStatus("healer")) {
+        bonusHealer += 10;
       }
-      if (checkGene(rec, rec)) {
-        let odds = [
-          [15 + bonus, dom],
-          [50 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
+      if (checkStatus("commoner")) {
+        bonusCommoner += 5;
       }
-      if (checkGene(dom, rec)) {
-        let odds = [
-          [65 + bonus, dom],
-          [100 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
+      if (checkStatus("warrior")) {
+        bonusWarrior += 5;
       }
-      if (checkGene(dom, dom)) {
-        let odds = [[100 + bonus, dom]];
-        offspring.geno.push(rngList(odds, 100));
+      if (checkStatus("second")) {
+        bonusSecond += 5;
       }
-      if (checkGene(dom, none)) {
-        let odds = [[100 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
+      if (checkStatus("leader")) {
+        bonusLeader += 5;
       }
-    }
 
-    for (let i = 0; i < listMarksMods.common.length; i++) {
-      if (listMarksMods.common[i][2] === "marking") {
-        let bonus =
-          bonusMarkings +
-          bonusHealer +
-          bonusCommoner +
-          bonusWarrior +
-          bonusSecond +
-          bonusLeader;
-        logicMarksModsCommon(listMarksMods.common[i][1], bonus);
-      }
-      if (listMarksMods.common[i][2] === "modifier") {
-        logicMarksModsCommon(listMarksMods.common[i][1], bonusModifiers);
-      }
-    }
-
-    // uncommon
-    /**
-     * @param {string} gene
-     * @param {number} bonus
-     */
-    function logicMarksModsUncommon(gene, bonus) {
-      let dom = `${gene}${gene}`;
-      let rec = `n${gene}`;
-      let none = false;
-      let regexVar = `\\b(${dom}|${rec})\\b`;
-      let regex = new RegExp(regexVar, "");
-      let sireGene =
-        sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
-      let damGene =
-        dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
-
+      // common
       /**
-       * @param {string} geneA
-       * @param {string|boolean} geneB
+       * @param {string} gene
+       * @param {number} bonus
        */
-      function checkGene(geneA, geneB) {
-        return (
-          (sireGene === geneA && damGene === geneB) ||
-          (sireGene === geneB && damGene === geneA) ||
-          false
-        );
+      function logicMarksModsCommon(gene, bonus) {
+        let dom = `${gene}${gene}`;
+        let rec = `n${gene}`;
+        let none = false;
+        let regexVar = `\\b(${dom}|${rec})\\b`;
+        let regex = new RegExp(regexVar, "");
+        let sireGene =
+          sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
+        let damGene =
+          dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
+
+        /**
+         * @param {string} geneA
+         * @param {string|boolean} geneB
+         */
+        function checkGene(geneA, geneB) {
+          return (
+            (sireGene === geneA && damGene === geneB) ||
+            (sireGene === geneB && damGene === geneA) ||
+            false
+          );
+        }
+
+        if (checkGene(rec, none)) {
+          let odds = [[35 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(rec, rec)) {
+          let odds = [
+            [15 + bonus, dom],
+            [50 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, rec)) {
+          let odds = [
+            [65 + bonus, dom],
+            [100 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, dom)) {
+          let odds = [[100 + bonus, dom]];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, none)) {
+          let odds = [[100 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
       }
 
-      if (checkGene(rec, none)) {
-        let odds = [[20 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
+      for (let i = 0; i < listMarksMods.common.length; i++) {
+        if (listMarksMods.common[i][2] === "marking") {
+          let bonus =
+            bonusMarkings +
+            bonusHealer +
+            bonusCommoner +
+            bonusWarrior +
+            bonusSecond +
+            bonusLeader;
+          logicMarksModsCommon(listMarksMods.common[i][1], bonus);
+        }
+        if (listMarksMods.common[i][2] === "modifier") {
+          logicMarksModsCommon(listMarksMods.common[i][1], bonusModifiers);
+        }
       }
-      if (checkGene(rec, rec)) {
-        let odds = [
-          [10 + bonus, dom],
-          [50 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, rec)) {
-        let odds = [
-          [30 + bonus, dom],
-          [90 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, dom)) {
-        let odds = [
-          [70 + bonus, dom],
-          [90 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, none)) {
-        let odds = [[80 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
-      }
-    }
 
-    for (let i = 0; i < listMarksMods.uncommon.length; i++) {
-      if (listMarksMods.uncommon[i][2] === "marking") {
-        let bonus =
-          bonusMarkings +
-          bonusHealer +
-          bonusWarrior +
-          bonusSecond +
-          bonusLeader;
-        logicMarksModsUncommon(listMarksMods.uncommon[i][1], bonus);
-      }
-      if (listMarksMods.uncommon[i][2] === "modifier") {
-        logicMarksModsUncommon(listMarksMods.uncommon[i][1], bonusModifiers);
-      }
-    }
-
-    // rare
-    /**
-     * @param {string} gene
-     * @param {number} bonus
-     */
-    function logicMarksModsRare(gene, bonus) {
-      let dom = `${gene}${gene}`;
-      let rec = `n${gene}`;
-      let none = false;
-      let regexVar = `\\b(${dom}|${rec})\\b`;
-      let regex = new RegExp(regexVar, "");
-      let sireGene =
-        sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
-      let damGene =
-        dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
-
+      // uncommon
       /**
-       * @param {string} geneA
-       * @param {string|boolean} geneB
+       * @param {string} gene
+       * @param {number} bonus
        */
-      function checkGene(geneA, geneB) {
-        return (
-          (sireGene === geneA && damGene === geneB) ||
-          (sireGene === geneB && damGene === geneA) ||
-          false
-        );
+      function logicMarksModsUncommon(gene, bonus) {
+        let dom = `${gene}${gene}`;
+        let rec = `n${gene}`;
+        let none = false;
+        let regexVar = `\\b(${dom}|${rec})\\b`;
+        let regex = new RegExp(regexVar, "");
+        let sireGene =
+          sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
+        let damGene =
+          dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
+
+        /**
+         * @param {string} geneA
+         * @param {string|boolean} geneB
+         */
+        function checkGene(geneA, geneB) {
+          return (
+            (sireGene === geneA && damGene === geneB) ||
+            (sireGene === geneB && damGene === geneA) ||
+            false
+          );
+        }
+
+        if (checkGene(rec, none)) {
+          let odds = [[20 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(rec, rec)) {
+          let odds = [
+            [10 + bonus, dom],
+            [50 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, rec)) {
+          let odds = [
+            [30 + bonus, dom],
+            [90 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, dom)) {
+          let odds = [
+            [70 + bonus, dom],
+            [90 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, none)) {
+          let odds = [[80 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
       }
 
-      if (checkGene(rec, none)) {
-        let odds = [[5 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
+      for (let i = 0; i < listMarksMods.uncommon.length; i++) {
+        if (listMarksMods.uncommon[i][2] === "marking") {
+          let bonus =
+            bonusMarkings +
+            bonusHealer +
+            bonusWarrior +
+            bonusSecond +
+            bonusLeader;
+          logicMarksModsUncommon(listMarksMods.uncommon[i][1], bonus);
+        }
+        if (listMarksMods.uncommon[i][2] === "modifier") {
+          logicMarksModsUncommon(listMarksMods.uncommon[i][1], bonusModifiers);
+        }
       }
-      if (checkGene(rec, rec)) {
-        let odds = [
-          [5 + bonus, dom],
-          [35 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, rec)) {
-        let odds = [
-          [20 + bonus, dom],
-          [80 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, dom)) {
-        let odds = [
-          [50 + bonus, dom],
-          [85 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, none)) {
-        let odds = [[60 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
-      }
-    }
 
-    for (let i = 0; i < listMarksMods.rare.length; i++) {
-      if (listMarksMods.rare[i][2] === "marking") {
-        let bonus = bonusMarkings + bonusSecond + bonusLeader;
-        logicMarksModsRare(listMarksMods.rare[i][1], bonus);
-      }
-      if (listMarksMods.rare[i][2] === "modifier") {
-        logicMarksModsRare(listMarksMods.rare[i][1], bonusModifiers);
-      }
-    }
-
-    // ultraRare
-    /**
-     * @param {string} gene
-     * @param {number} bonus
-     */
-    function logicMarksModsUltraRare(gene, bonus) {
-      let dom = `${gene}${gene}`;
-      let rec = `n${gene}`;
-      let none = false;
-      let regexVar = `\\b(${dom}|${rec})\\b`;
-      let regex = new RegExp(regexVar, "");
-      let sireGene =
-        sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
-      let damGene =
-        dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
-
+      // rare
       /**
-       * @param {string} geneA
-       * @param {string|boolean} geneB
+       * @param {string} gene
+       * @param {number} bonus
        */
-      function checkGene(geneA, geneB) {
-        return (
-          (sireGene === geneA && damGene === geneB) ||
-          (sireGene === geneB && damGene === geneA) ||
-          false
-        );
+      function logicMarksModsRare(gene, bonus) {
+        let dom = `${gene}${gene}`;
+        let rec = `n${gene}`;
+        let none = false;
+        let regexVar = `\\b(${dom}|${rec})\\b`;
+        let regex = new RegExp(regexVar, "");
+        let sireGene =
+          sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
+        let damGene =
+          dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
+
+        /**
+         * @param {string} geneA
+         * @param {string|boolean} geneB
+         */
+        function checkGene(geneA, geneB) {
+          return (
+            (sireGene === geneA && damGene === geneB) ||
+            (sireGene === geneB && damGene === geneA) ||
+            false
+          );
+        }
+
+        if (checkGene(rec, none)) {
+          let odds = [[5 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(rec, rec)) {
+          let odds = [
+            [5 + bonus, dom],
+            [35 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, rec)) {
+          let odds = [
+            [20 + bonus, dom],
+            [80 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, dom)) {
+          let odds = [
+            [50 + bonus, dom],
+            [85 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, none)) {
+          let odds = [[60 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
       }
 
-      if (checkGene(rec, none)) {
-        let odds = [[3 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
+      for (let i = 0; i < listMarksMods.rare.length; i++) {
+        if (listMarksMods.rare[i][2] === "marking") {
+          let bonus = bonusMarkings + bonusSecond + bonusLeader;
+          logicMarksModsRare(listMarksMods.rare[i][1], bonus);
+        }
+        if (listMarksMods.rare[i][2] === "modifier") {
+          logicMarksModsRare(listMarksMods.rare[i][1], bonusModifiers);
+        }
       }
-      if (checkGene(rec, rec)) {
-        let odds = [
-          [3 + bonus, dom],
-          [25 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, rec)) {
-        let odds = [
-          [7 + bonus, dom],
-          [60 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, dom)) {
-        let odds = [
-          [10 + bonus, dom],
-          [75 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, none)) {
-        let odds = [[30 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
-      }
-    }
 
-    for (let i = 0; i < listMarksMods.ultraRare.length; i++) {
-      if (listMarksMods.ultraRare[i][2] === "marking") {
-        let bonus = bonusMarkings;
-        logicMarksModsUltraRare(listMarksMods.ultraRare[i][1], bonus);
-      }
-      if (listMarksMods.ultraRare[i][2] === "modifier") {
-        logicMarksModsUltraRare(listMarksMods.ultraRare[i][1], bonusModifiers);
-      }
-    }
-
-    // legendary
-    /**
-     * @param {string} gene
-     * @param {number} bonus
-     */
-    function logicMarksModsLegendary(gene, bonus) {
-      let dom = `${gene}${gene}`;
-      let rec = `n${gene}`;
-      let none = false;
-      let regexVar = `\\b(${dom}|${rec})\\b`;
-      let regex = new RegExp(regexVar, "");
-      let sireGene =
-        sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
-      let damGene =
-        dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
-
+      // ultraRare
       /**
-       * @param {string} geneA
-       * @param {string|boolean} geneB
+       * @param {string} gene
+       * @param {number} bonus
        */
-      function checkGene(geneA, geneB) {
-        return (
-          (sireGene === geneA && damGene === geneB) ||
-          (sireGene === geneB && damGene === geneA) ||
-          false
-        );
+      function logicMarksModsUltraRare(gene, bonus) {
+        let dom = `${gene}${gene}`;
+        let rec = `n${gene}`;
+        let none = false;
+        let regexVar = `\\b(${dom}|${rec})\\b`;
+        let regex = new RegExp(regexVar, "");
+        let sireGene =
+          sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
+        let damGene =
+          dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
+
+        /**
+         * @param {string} geneA
+         * @param {string|boolean} geneB
+         */
+        function checkGene(geneA, geneB) {
+          return (
+            (sireGene === geneA && damGene === geneB) ||
+            (sireGene === geneB && damGene === geneA) ||
+            false
+          );
+        }
+
+        if (checkGene(rec, none)) {
+          let odds = [[3 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(rec, rec)) {
+          let odds = [
+            [3 + bonus, dom],
+            [25 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, rec)) {
+          let odds = [
+            [7 + bonus, dom],
+            [60 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, dom)) {
+          let odds = [
+            [10 + bonus, dom],
+            [75 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, none)) {
+          let odds = [[30 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
       }
 
-      if (checkGene(rec, none)) {
-        let odds = [[1 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
+      for (let i = 0; i < listMarksMods.ultraRare.length; i++) {
+        if (listMarksMods.ultraRare[i][2] === "marking") {
+          let bonus = bonusMarkings;
+          logicMarksModsUltraRare(listMarksMods.ultraRare[i][1], bonus);
+        }
+        if (listMarksMods.ultraRare[i][2] === "modifier") {
+          logicMarksModsUltraRare(
+            listMarksMods.ultraRare[i][1],
+            bonusModifiers
+          );
+        }
       }
-      if (checkGene(rec, rec)) {
-        let odds = [
-          [1 + bonus, dom],
-          [4 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, rec)) {
-        let odds = [
-          [2 + bonus, dom],
-          [57 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, dom)) {
-        let odds = [
-          [5 + bonus, dom],
-          [50 + bonus, rec],
-        ];
-        offspring.geno.push(rngList(odds, 100));
-      }
-      if (checkGene(dom, none)) {
-        let odds = [[20 + bonus, rec]];
-        offspring.geno.push(rngList(odds, 100));
-      }
-    }
 
-    for (let i = 0; i < listMarksMods.legendary.length; i++) {
-      if (listMarksMods.legendary[i][2] === "marking") {
-        let bonus = bonusMarkings;
-        logicMarksModsLegendary(listMarksMods.legendary[i][1], bonus);
+      // legendary
+      /**
+       * @param {string} gene
+       * @param {number} bonus
+       */
+      function logicMarksModsLegendary(gene, bonus) {
+        let dom = `${gene}${gene}`;
+        let rec = `n${gene}`;
+        let none = false;
+        let regexVar = `\\b(${dom}|${rec})\\b`;
+        let regex = new RegExp(regexVar, "");
+        let sireGene =
+          sire.geno.match(regex) !== null ? sire.geno.match(regex)[1] : false;
+        let damGene =
+          dam.geno.match(regex) !== null ? dam.geno.match(regex)[1] : false;
+
+        /**
+         * @param {string} geneA
+         * @param {string|boolean} geneB
+         */
+        function checkGene(geneA, geneB) {
+          return (
+            (sireGene === geneA && damGene === geneB) ||
+            (sireGene === geneB && damGene === geneA) ||
+            false
+          );
+        }
+
+        if (checkGene(rec, none)) {
+          let odds = [[1 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(rec, rec)) {
+          let odds = [
+            [1 + bonus, dom],
+            [4 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, rec)) {
+          let odds = [
+            [2 + bonus, dom],
+            [57 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, dom)) {
+          let odds = [
+            [5 + bonus, dom],
+            [50 + bonus, rec],
+          ];
+          offspring.geno.push(rngList(odds, 100));
+        }
+        if (checkGene(dom, none)) {
+          let odds = [[20 + bonus, rec]];
+          offspring.geno.push(rngList(odds, 100));
+        }
       }
-      if (listMarksMods.legendary[i][2] === "modifier") {
-        logicMarksModsLegendary(listMarksMods.legendary[i][1], bonusModifiers);
+
+      for (let i = 0; i < listMarksMods.legendary.length; i++) {
+        if (listMarksMods.legendary[i][2] === "marking") {
+          let bonus = bonusMarkings;
+          logicMarksModsLegendary(listMarksMods.legendary[i][1], bonus);
+        }
+        if (listMarksMods.legendary[i][2] === "modifier") {
+          logicMarksModsLegendary(
+            listMarksMods.legendary[i][1],
+            bonusModifiers
+          );
+        }
       }
-    }
+    })();
 
     // overrides
-    // tabby override
-    /**
-     * @param {string} rarity
-     */
-    function checkTabby(rarity) {}
-    // console.log(checkTabby("common"));
+    (() => {
+      // convert offspring.geno type
+      offspring.geno = offspring.geno.join(" ");
 
-    // modifier override
-    // TODO: implement 'no two modifiers may exist together (with exceptions)'
+      // tabby override
+      (() => {
+        // setup
+        let regexCommon = new RegExp(`${listTabbyRegex.common}`, "g");
+        let regexUncommon = new RegExp(`${listTabbyRegex.uncommon}`, "g");
+        let regexRare = new RegExp(`${listTabbyRegex.rare}`, "g");
+        let regexUltraRare = new RegExp(`${listTabbyRegex.ultraRare}`, "g");
+        let regexLegendary = new RegExp(`${listTabbyRegex.legendary}`, "g");
+
+        // rarity
+        if (offspring.geno.search(regexRare) !== -1) {
+          offspring.geno = offspring.geno
+            .replace(regexCommon, "")
+            .replace(regexUncommon, "");
+        }
+        if (offspring.geno.search(regexUncommon) !== -1) {
+          offspring.geno = offspring.geno.replace(regexCommon, "");
+        }
+
+        // single random
+        let listRegexAll = [
+          listTabbyRegex.common,
+          listTabbyRegex.uncommon,
+          listTabbyRegex.rare,
+          // listTabbyRegex.ultraRare,
+          // listTabbyRegex.legendary,
+        ].join("|");
+        let regexAll = new RegExp(`${listRegexAll}`, "g");
+        console.log(listRegexAll);
+
+        let check = offspring.geno.search(regexAll) !== -1 || false;
+        if (!check) return;
+        console.log("yas?");
+      })();
+
+      // modifier override
+      // TODO: implement 'no two modifiers may exist together (with exceptions)'
+
+      // revert offspring.geno type
+      offspring.geno = offspring.geno.split(" ");
+    })();
   }
 
   function readPheno() {}
@@ -786,17 +858,21 @@ function rollBreeding() {
 
     // stats
     if (offspring.stats.length > 0) {
-      offspring.stats = sanitizeArray(offspring.stats);
+      let s = offspring.stats;
+      offspring.stats = `AG ${s[0]} | CH ${s[1]} | CR ${s[2]} | DI ${s[3]} | EN ${s[4]} | IN ${s[5]} | LU ${s[6]} | PI ${s[7]} | PO ${s[8]} | ST ${s[9]} | VI ${s[10]} | WI ${s[11]}`;
     } else {
       offspring.stats = "n/a";
     }
 
     // lineage
-    if (
-      offspring.lineage.length > 0 &&
-      offspring.lineage.indexOf("default") === -1
-    ) {
-      offspring.lineage = sanitizeArray(offspring.lineage);
+    if (offspring.lineage[0].indexOf("default") === -1) {
+      offspring.lineage[0] = offspring.lineage[0].toUpperCase();
+      if (offspring.lineage[1].length !== 0) {
+        offspring.lineage[1] = sanitizeArray(offspring.lineage[1]);
+        offspring.lineage = `${offspring.lineage[0]} | ${offspring.lineage[1]}`;
+      } else {
+        offspring.lineage = offspring.lineage[0];
+      }
     } else {
       offspring.lineage = "n/a";
     }
