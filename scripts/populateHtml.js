@@ -17,8 +17,8 @@ populate(
   "simple"
 );
 populate("parentFertility", ["fertile", "infertile"], "simple");
-populate("parentMutations1", listPassableMutations, "optGroup");
-populate("parentMutations2", listPassableMutations, "optGroup");
+populate("parentMutations1", listPassableMuts, "optGroup");
+populate("parentMutations2", listPassableMuts, "optGroup");
 populate("parentTraits1", listTraits.positive, "simple");
 populate("parentTraits2", listTraits.neutral, "simple");
 populate("parentTraits3", listTraits.negative, "simple");
@@ -53,7 +53,7 @@ function expand(id) {
 // expand("damExpand");
 
 // populate for testing
-document.getElementById("sireGeno").value = `o/Bb/nBrT/nPsT`;
-document.getElementById("damGeno").value = `Oo/Bb/AgAg/BrTBrT/PsTPsT`;
+document.getElementById("sireGeno").value = `o/Bb/nFr/nBn/ColCol`;
+document.getElementById("damGeno").value = `Oo/Bb/OwOw/RosRos/UnUn/VnVn`;
 document.getElementById("sireStats").value = `10	10	10	10	10	10	10	10	10	10	10	10`;
 document.getElementById("damStats").value = `3	10	3	3	10	0	0	0	0	0	0	0`;

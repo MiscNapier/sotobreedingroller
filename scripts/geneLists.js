@@ -1,5 +1,86 @@
 // base genes were not listified, see rollGeno() function in rollBreeding.js
 
+// pheno order
+const listPhenoOrder = {
+  id1: [
+    ["freckled", "Fr"],
+    ["mitted", "Mt"],
+    ["masked", "Msk"],
+    ["banded", "Bn"],
+    ["capped", "Cp"],
+    ["hooded", "Hd"],
+    ["collared", "Col"],
+    ["bicolored", "Bi"],
+    ["sooty", "St"],
+    ["colorpointed", "Cpt"],
+    ["volcanic", "V"],
+  ],
+  id2: [
+    ["clouded", "Clo"],
+    ["shaded", "Shd"],
+    ["marbled", "Mb"],
+    ["saddled", "Sd"],
+    ["doubled", "Db"],
+  ],
+  idBase: [
+    ["red", "(BB|Bb|bb) (OO|O)"],
+    ["red/black", "BB Oo"],
+    ["black", "(BB|Bb) (oo|o)"],
+    ["red/chocolate", "bb Oo"],
+    ["chocolate", "bb (oo|o)"],
+  ],
+  id3: [
+    ["sheeted", "She"],
+    ["sand", "Snd"],
+    ["tweed", "Tw"],
+    ["agouti", "Ag"],
+    ["brindle", "Bri"],
+    ["merle", "M"],
+    ["seal", "Se"],
+    ["blotched-tabby", "BlT"],
+    ["braided-tabby", "BrT"],
+    ["broken-tabby", "BroT"],
+    ["mackerel-tabby", "McT"],
+    ["pinstriped-tabby", "PsT"],
+    ["smokey-tabby", "SmT"],
+    ["speckled-tabby", "SpT"],
+    ["spotted-tabby", "SpoT"],
+    ["ticked-tabby", "TcT"],
+    ["jay", "J"],
+    ["wildebeest", "W"],
+    ["serval", "Srv"],
+    ["skunk", "Sk"],
+    ["owl", "Ow"],
+    ["peafowl", "Pf"],
+    ["quail", "Qu"],
+    ["gazelle", "Gz"],
+    ["kudu", "Kd"],
+    ["caribou", "Car"],
+    ["zebra", "Zb"],
+    ["pigeon", "Pg"],
+    ["cheetah", "Cht"],
+    ["panda", "Pnd"],
+    ["monarch", "Mon"],
+    ["python", "Py"],
+    ["tortoise", "To"],
+    ["wolf", "Wo"],
+    ["tuxedo", "Tx"],
+  ],
+  id4: [
+    ["gradient", "Gra"],
+    ["fawn", "Fw"],
+    ["shoes", "Sh"],
+    ["badger", "Bdg"],
+    ["fish-scales", "Sc"],
+    ["ocelot", "Oc"],
+    ["rosette", "Ros"],
+  ],
+  id5: [
+    ["unders", "Un"],
+    ["van", "Vn"],
+  ],
+};
+
 // markings & modifiers
 // basic lists
 const listMarkings = {
@@ -20,6 +101,7 @@ const listMarkings = {
     ["shoes", "Sh"],
     ["ticked-tabby", "TcT"],
     ["tuxedo", "Tx"],
+    ["unders", "Un"],
   ],
   uncommon: [
     ["badger", "Bdg"],
@@ -155,10 +237,10 @@ const listMarksMods = {
 
 // random mutations & defects
 const listRandomMuts = [
-  [3, "black-fur", ["viperus"]],
-  [11, "canyon-fur", ["kane"]],
-  [24, "feather-fur", ["skirit"]],
-  [44, "milk-fur", ["viperus", "kane"]],
+  [3, "black-fur"],
+  [11, "canyon-fur"],
+  [24, "feather-fur"],
+  [44, "milk-fur"],
   [
     55,
     rngList(
@@ -171,10 +253,9 @@ const listRandomMuts = [
       ],
       100
     ),
-    ["viperus"],
   ],
-  [58, "sky-fur", []],
-  [68, "snow-fur", []],
+  [58, "sky-fur"],
+  [68, "snow-fur"],
   [
     100,
     randomizer([
@@ -182,45 +263,44 @@ const listRandomMuts = [
       "generalized-vitiligo",
       "segmented-vitiligo",
     ]),
-    ["viperus"],
   ],
 ];
 
 const listRandomPhysMuts = [
-  [9, "bobbed-tail", ["kane"]],
-  [12, "chimerism", []],
-  [14, "double-eared", ["skirit"]],
-  [17, "droopy-ears", ["skirit", "kane"]],
-  [19, "elongated-limbs", ["viperus"]],
-  [22, "elongated-tail", ["viperus", "skirit"]],
-  [27, "gigantism", ["viperus"]],
-  [34, "maned", ["viperus", "kane"]],
-  [50, "overgrown-fur", ["viperus"]],
-  [70, "tailless", ["kane"]],
-  [71, "two-tailed", ["skirit"]],
+  [9, "bobbed-tail"],
+  [12, "chimerism"],
+  [14, "double-eared"],
+  [17, "droopy-ears"],
+  [19, "elongated-limbs"],
+  [22, "elongated-tail"],
+  [27, "gigantism"],
+  [34, "maned"],
+  [50, "overgrown-fur"],
+  [70, "tailless"],
+  [71, "two-tailed"],
 ];
 
-/**
- * @param {array} array
- * @param {string} tag
- */
-function checkTag(array, tag) {
-  return array[2].indexOf(tag) !== -1 || false;
-}
+// /**
+//  * @param {array} array
+//  * @param {string} tag
+//  */
+// function checkTag(array, tag) {
+//   return array[2].indexOf(tag) !== -1 || false;
+// }
 
-const listRandomMutsBonusViperus = [];
-for (let i = 0; i < listRandomMuts.length; i++) {
-  if (checkTag(listRandomMuts[i], "viperus")) {
-    listRandomMutsBonusViperus.push(listRandomMuts[i][1]);
-  }
-}
+// const listRandomMutsBonusViperus = [];
+// for (let i = 0; i < listRandomMuts.length; i++) {
+//   if (checkTag(listRandomMuts[i], "viperus")) {
+//     listRandomMutsBonusViperus.push(listRandomMuts[i][1]);
+//   }
+// }
 
-const listRandomPhysMutsBonusViperus = [];
-for (let i = 0; i < listRandomPhysMuts.length; i++) {
-  if (checkTag(listRandomPhysMuts[i], "viperus")) {
-    listRandomPhysMutsBonusViperus.push(listRandomPhysMuts[i][1]);
-  }
-}
+// const listRandomPhysMutsBonusViperus = [];
+// for (let i = 0; i < listRandomPhysMuts.length; i++) {
+//   if (checkTag(listRandomPhysMuts[i], "viperus")) {
+//     listRandomPhysMutsBonusViperus.push(listRandomPhysMuts[i][1]);
+//   }
+// }
 
 const listDefects = [
   [2, "bald-patches"],
@@ -255,7 +335,7 @@ const listDefects = [
 ];
 
 // passable mutations
-const listPassableMutations = {
+const listPassableMuts = {
   common: [
     "bobbed-tail",
     "maned",
@@ -270,7 +350,6 @@ const listPassableMutations = {
     "droopy-ears",
     "elongated-limbs",
     "elongated-tail",
-    "piebaldism",
     "laced-piebaldism",
     "splashed-piebaldism",
     "painted-piebaldism",
@@ -282,6 +361,82 @@ const listPassableMutations = {
   ultraRare: ["chimerism", "sky-fur", "two-tailed"],
   legendary: [],
 };
+
+// create fur, piabaldism and vitiligo lists automatically
+/**
+ * @param {string} rarity
+ * @param {string} query
+ */
+function getGeneFamily(rarity, geneFamily) {
+  let output = [];
+
+  for (let i = 0; i < listPassableMuts[rarity].length; i++) {
+    let regex = new RegExp(geneFamily, "g");
+    if (listPassableMuts[rarity][i].search(regex) !== -1) {
+      let gene = listPassableMuts[rarity][i];
+      output.push(gene);
+    }
+  }
+
+  return output.join("|");
+}
+
+const listFurRegex = {
+  common: getGeneFamily("common", "fur"),
+  uncommon: getGeneFamily("uncommon", "fur"),
+  rare: getGeneFamily("rare", "fur"),
+  ultraRare: getGeneFamily("ultraRare", "fur"),
+  legendary: getGeneFamily("legendary", "fur"),
+};
+const listPiebaldismRegex = {
+  common: getGeneFamily("common", "piebaldism"),
+  uncommon: getGeneFamily("uncommon", "piebaldism"),
+  rare: getGeneFamily("rare", "piebaldism"),
+  ultraRare: getGeneFamily("ultraRare", "piebaldism"),
+  legendary: getGeneFamily("legendary", "piebaldism"),
+};
+const listVitiligoRegex = {
+  common: getGeneFamily("common", "vitiligo"),
+  uncommon: getGeneFamily("uncommon", "vitiligo"),
+  rare: getGeneFamily("rare", "vitiligo"),
+  ultraRare: getGeneFamily("ultraRare", "vitiligo"),
+  legendary: getGeneFamily("legendary", "vitiligo"),
+};
+
+// mutation lineage bonuses
+const listBonusViperus = [
+  "black-fur",
+  "elongated-limbs",
+  "elongated-tail",
+  "gigantism",
+  "maned",
+  "milk-fur",
+  "overgrown-fur",
+  "splashed-piebaldism",
+  "painted-piebaldism",
+  "dusted-piebaldism",
+  "clouded-piebaldism",
+  "focused-vitiligo",
+  "generalized-vitiligo",
+  "segmented-vitiligo",
+];
+
+const listBonusSkirit = [
+  "doubled-eared",
+  "droopy-ears",
+  "elongated-tail",
+  "feather-fur",
+  "two-tailed",
+];
+
+const listBonusKane = [
+  "bobbed-tail",
+  "canyon-fur",
+  "droopy-ears",
+  "maned",
+  "milk-fur",
+  "tailless",
+];
 
 // traits
 const listTraits = {

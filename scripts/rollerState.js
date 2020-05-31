@@ -101,7 +101,7 @@ function setupObjects() {
   // offspring object
   offspring = {
     geno: [],
-    pheno: [],
+    pheno: [[], [], [], [], [], []],
     sex: "",
     stats: [],
     lineage: [[], []],

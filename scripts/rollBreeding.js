@@ -146,7 +146,13 @@ function rollBreeding() {
     }
 
     if (rng(100) <= bonusViperus) {
-      offspring.mutations.push(randomizer(listRandomMutsBonusViperus));
+      offspring.mutations.push(randomizer(listBonusViperus));
+    }
+    if (rng(100) <= bonusSkirit) {
+      offspring.mutations.push(randomizer(listBonusSkirit));
+    }
+    if (rng(100) <= bonusKane) {
+      offspring.mutations.push(randomizer(listBonusKane));
     }
 
     // defects
@@ -169,10 +175,16 @@ function rollBreeding() {
       // physical mutations
       if (defectCount === 0) {
         offspring.mutations.push(rngList(listRandomPhysMuts, 100));
-
-        if (rng(100) <= bonusViperus) {
-          offspring.mutations.push(randomizer(listRandomPhysMutsBonusViperus));
-        }
+      } else {
+        // remove bonus physMuts override
+        offspring.mutations = offspring.mutations
+          .join(" ")
+          .replace(
+            /bobbed-tail|chimerism|doubled-eared|droopy-ears|elongated-limbs|elongated-tail|gigantism|maned|overgrown-fur|tailless|two-tailed/,
+            ""
+          )
+          .replace(/\s\s/g, " ")
+          .split(" ");
       }
     }
   }
@@ -747,30 +759,41 @@ function rollBreeding() {
        * @param {string} gene
        */
       function logicMutation(odds, gene) {
-        let check = sireMut === gene || damMut === gene;
+        let bonus = bonusMutations;
 
+        if (listBonusViperus.indexOf(gene) !== -1) {
+          bonus += bonusViperus;
+        }
+        if (listBonusSkirit.indexOf(gene) !== -1) {
+          bonus += bonusSkirit;
+        }
+        if (listBonusKane.indexOf(gene) !== -1) {
+          bonus += bonusKane;
+        }
+
+        let check = sireMut === gene || damMut === gene;
         if (gene.search(/piebaldism/) !== -1) {
           gene = "bicolor";
         }
-        if (check && rng(100) + bonusMutations <= odds) {
+        if (check && rng(100) + bonus <= odds) {
           offspring.mutations.push(gene);
         }
       }
 
-      for (let i = 0; i < listPassableMutations.common.length; i++) {
-        logicMutation(20, listPassableMutations.common[i]);
+      for (let i = 0; i < listPassableMuts.common.length; i++) {
+        logicMutation(20, listPassableMuts.common[i]);
       }
-      for (let i = 0; i < listPassableMutations.uncommon.length; i++) {
-        logicMutation(15, listPassableMutations.uncommon[i]);
+      for (let i = 0; i < listPassableMuts.uncommon.length; i++) {
+        logicMutation(15, listPassableMuts.uncommon[i]);
       }
-      for (let i = 0; i < listPassableMutations.rare.length; i++) {
-        logicMutation(10, listPassableMutations.rare[i]);
+      for (let i = 0; i < listPassableMuts.rare.length; i++) {
+        logicMutation(10, listPassableMuts.rare[i]);
       }
-      for (let i = 0; i < listPassableMutations.ultraRare.length; i++) {
-        logicMutation(5, listPassableMutations.ultraRare[i]);
+      for (let i = 0; i < listPassableMuts.ultraRare.length; i++) {
+        logicMutation(5, listPassableMuts.ultraRare[i]);
       }
-      for (let i = 0; i < listPassableMutations.legendary.length; i++) {
-        logicMutation(1, listPassableMutations.legendary[i]);
+      for (let i = 0; i < listPassableMuts.legendary.length; i++) {
+        logicMutation(1, listPassableMuts.legendary[i]);
       }
     })();
 
@@ -829,7 +852,45 @@ function rollBreeding() {
     })();
   }
 
-  function readPheno() {}
+  function readPheno() {
+    // setup
+    let genoString = offspring.geno.join(" ");
+    // id1 = offspring.pheno[0];
+    // id2 = offspring.pheno[1];
+    // idBase = offspring.pheno[2];
+    // id3 = offspring.pheno[3];
+    // id4 = offspring.pheno[4];
+    // id5 = offspring.pheno[5];
+
+    // logic
+    /**
+     * @param {array} list
+     * @param {number} pos
+     */
+    function logicMarkMod(list, pos) {
+      for (let i = 0; i < list.length; i++) {
+        let gene = list[i][1];
+        let regex = new RegExp(`n${gene}|${gene}${gene}`);
+
+        if (genoString.search(regex) !== -1) {
+          offspring.pheno[pos].push(list[i][0]);
+        }
+
+        if (pos === 4 && offspring.pheno[pos].length > 0) {
+          offspring.pheno[pos].unshift("with");
+        }
+        if (pos === 5 && offspring.pheno[pos].length > 1) {
+          offspring.pheno[pos].splice(-1, 0, "and");
+        }
+      }
+    }
+
+    logicMarkMod(listPhenoOrder.id1, 0);
+    logicMarkMod(listPhenoOrder.id2, 1);
+    logicMarkMod(listPhenoOrder.id3, 3);
+    logicMarkMod(listPhenoOrder.id4, 4);
+    logicMarkMod(listPhenoOrder.id5, 5);
+  }
 
   function handleChimerism() {
     let check = offspring.mutations.indexOf("chimerism") !== -1 || false;
@@ -936,8 +997,13 @@ function rollBreeding() {
     }
 
     // pheno
-    if (offspring.pheno > 0) {
-      // ?
+    if ([].concat.apply([], offspring.pheno).length > 0) {
+      offspring.pheno = [].concat
+        .apply([], offspring.pheno)
+        .join(", ")
+        .capitalizeStr()
+        .replace(/, With,/, " with")
+        .replace(/, And,/, " and");
     } else {
       offspring.pheno = "n/a";
     }
@@ -970,7 +1036,87 @@ function rollBreeding() {
     offspring.fertility = offspring.fertility.capitalizeStr();
 
     // mutations
+    // single random
+    /**
+     * @param {array} input
+     * @param {object} list
+     */
+    function singleRandom(input, list) {
+      // setup
+      let inputString = input.join(" ");
+
+      // rarity
+      let regexCommon = new RegExp(`${list.common}`, "g");
+      let regexUncommon = new RegExp(`${list.uncommon}`, "g");
+      let regexRare = new RegExp(`${list.rare}`, "g");
+      let regexUltraRare = new RegExp(`${list.ultraRare}`, "g");
+      let regexLegendary = new RegExp(`${list.legendary}`, "g");
+
+      if (
+        list.legendary != false &&
+        inputString.search(regexLegendary) !== -1
+      ) {
+        inputString = inputString
+          .replace(regexCommon, "")
+          .replace(regexUncommon, "")
+          .replace(regexRare, "")
+          .replace(regexUltraRare, "");
+      }
+      if (
+        list.ultraRare != false &&
+        inputString.search(regexUltraRare) !== -1
+      ) {
+        inputString = inputString
+          .replace(regexCommon, "")
+          .replace(regexUncommon, "")
+          .replace(regexRare, "");
+      }
+      if (list.rare != false && inputString.search(regexRare) !== -1) {
+        inputString = inputString
+          .replace(regexCommon, "")
+          .replace(regexUncommon, "");
+      }
+      if (list.uncommon != false && inputString.search(regexUncommon) !== -1) {
+        inputString = inputString.replace(regexCommon, "");
+      }
+
+      // single random
+      let listRegexAll = [
+        list.common,
+        list.uncommon,
+        list.rare,
+        list.ultraRare,
+        list.legendary,
+      ]
+        .filter(Boolean)
+        .join("|");
+      let regexAll = new RegExp(`${listRegexAll}`, "g");
+
+      let check = inputString.search(regexAll) !== -1;
+      if (!check) return inputString.split(" ").filter(Boolean);
+      let selected = randomizer(inputString.match(regexAll));
+      let regexSelected = new RegExp(`${selected}`);
+      listRegexAll = listRegexAll
+        .replace(regexSelected, "")
+        .replace(/\|\|/g, "|")
+        .replace(/^\|/, "");
+      let regexRemove = new RegExp(`${listRegexAll}`, "g");
+      inputString = inputString.replace(regexRemove, "");
+
+      // return
+      return inputString.split(" ").filter(Boolean);
+    }
+
     if (offspring.mutations.length > 0) {
+      offspring.mutations = singleRandom(offspring.mutations, listFurRegex);
+      offspring.mutations = singleRandom(
+        offspring.mutations,
+        listPiebaldismRegex
+      );
+      offspring.mutations = singleRandom(
+        offspring.mutations,
+        listVitiligoRegex
+      );
       offspring.mutations = sanitizeArray(offspring.mutations);
     } else {
       offspring.mutations = false;

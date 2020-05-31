@@ -1,26 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Fondamento&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-
 :root {
   --bg-colour: rgba(209, 148, 128, 1);
-  --font-colour: rgba(241, 210, 155, 1);
+  --font-colour: rgb(245, 205, 137);
   --hr-colour: rgba(255, 255, 255, 0);
-  --boxOpaque-colour: rgba(68, 48, 61, 1);
-  --boxTrans-colour: rgba(68, 48, 61, 0.66);
+  --boxOpaque-colour: rgba(68, 41, 59, 1);
+  --boxTrans-colour: rgba(68, 41, 59, 0.5);
   --boxAlt-colour: rgba(255, 255, 255, 0.25);
 }
 
 /* body */
 body {
   background: var(--bg-colour);
-  background-image: url("img/knt-WaUcTYPfiCU-unsplash.jpg");
+  background-image: url("img/knt-WaUcTYPfiCU-unsplash.edit1.jpg");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
   overflow-y: scroll;
   overflow-x: auto;
   color: var(--font-colour);
-  font-family: "Source Code Pro", monospace;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 /* Headings */
@@ -38,7 +36,7 @@ H1 {
 }
 
 H2 {
-  font-size: 125%;
+  font-size: 130%;
 }
 
 hr {
@@ -253,7 +251,7 @@ select {
 /* button roll */
 #buttonRoll {
   background-color: var(--boxOpaque-colour);
-  border: 1px solid var(--boxOpaque-colour);
+  border: 0px solid var(--boxOpaque-colour);
   backdrop-filter: blur(25px);
   color: var(--font-colour);
   padding: 5px 10px 5px 10px;
@@ -289,6 +287,7 @@ select {
 }
 
 #buttonRoll:hover {
+  background: var(--boxAlt-colour);
   animation: shake 0.4s;
 }
 
