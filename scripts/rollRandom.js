@@ -77,7 +77,7 @@ function rollRandom() {
     function logicMarkMod(list, pos) {
       for (let i = 0; i < list.length; i++) {
         let gene = list[i][1];
-        let regex = new RegExp(`n${gene}|${gene}${gene}`);
+        let regex = new RegExp(`\\b(n${gene}|${gene}${gene})\\b`);
 
         // @ts-ignore
         if (genoString.search(regex) !== -1) {
