@@ -179,6 +179,10 @@ option {
   font-size: 80%;
 }
 
+#inbred {
+  margin: 10px;
+}
+
 #parent {
   display: none;
 }

@@ -17,7 +17,7 @@ function setupRollerState() {
   }
 }
 
-let item, sire, dam, fxi, ixi, offspring, error;
+let item, inbred, sire, dam, fxi, ixi, offspring, error;
 function setupObjects() {
   // item object
   let itemCheck = getPillSelect("itemPills");
@@ -33,6 +33,9 @@ function setupObjects() {
   if (item.epimedium) {
     item.oddEyedToad = false;
   }
+
+  // inbred
+  inbred = getCleaner("inbredCheckbox");
 
   // parent objects
   sire = {
