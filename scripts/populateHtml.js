@@ -13,7 +13,7 @@ populate(
 );
 populate(
   "parentLineage",
-  ["loner", "viperus", "wildcat", "skirit", "kane"],
+  [/*"loner",*/ "viperus", "wildcat", "skirit", "kane"],
   "simple"
 );
 populate("parentFertility", ["fertile", "infertile"], "simple");

@@ -745,9 +745,10 @@ function rollBreeding() {
         return offspring.lineage.indexOf(lineage) !== -1 || false;
       }
 
-      if (checkLineage("loner")) {
-        bonusMutations -= 10;
-      }
+      // loner removed from lineage by client's request
+      // if (checkLineage("loner")) {
+      //   bonusMutations -= 10;
+      // }
       if (checkLineage("viperus")) {
         bonusViperus += 10;
       }
