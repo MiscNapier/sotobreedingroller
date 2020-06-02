@@ -181,7 +181,7 @@ function output(mode) {
 
   if (mode === rollBreeding) {
     rollLitterSize();
-    litterSize = 1; // testing injection
+    // litterSize = 1; // testing injection
   } else {
     litterSize = 1;
   }
