@@ -83,14 +83,15 @@ function rollLitterSize() {
 
   // status ovverides
   /**
-   * @param {string} sireStatus
-   * @param {string} damStatus
+   * @param {string} status1
+   * @param {string} status2
    */
-  function checkStatus(sireStatus, damStatus) {
+  function checkStatus(status1, status2) {
     return (
-      sire.status.indexOf(sireStatus) !== -1 ||
-      dam.status.indexOf(damStatus) !== -1 ||
-      false
+      (sire.status.indexOf(status1) !== -1 &&
+        dam.status.indexOf(status2) !== -1) ||
+      (sire.status.indexOf(status2) !== -1 &&
+        dam.status.indexOf(status1) !== -1)
     );
   }
 
