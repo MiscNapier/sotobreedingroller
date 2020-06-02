@@ -23,13 +23,17 @@ const listPhenoOrder = {
     ["doubled", "Db"],
   ],
   idBase: [
-    ["red", "(BB|Bb|bb) (OO|O)"],
-    ["red/black", "BB Oo"],
-    ["black", "(BB|Bb) (oo|o)"],
-    ["red/chocolate", "bb Oo"],
-    ["chocolate", "bb (oo|o)"],
+    [["red"], "(BB|Bb|bb)\\s(OO|O)"],
+    [["red", "black"], "(BB|Bb)\\sOo"],
+    [["black"], "(BB|Bb)\\s(oo|o)"],
+    [["red", "chocolate"], "bb\\sOo"],
+    [["chocolate"], "bb\\s(oo|o)"],
   ],
   id3: [
+    // missing
+    ["aura", "Au"],
+    ["cream", "Cr"],
+    // orignal
     ["sheeted", "She"],
     ["sand", "Snd"],
     ["tweed", "Tw"],
@@ -78,6 +82,129 @@ const listPhenoOrder = {
   id5: [
     ["unders", "Un"],
     ["van", "Vn"],
+  ],
+};
+
+// pheno exceptions
+/**
+ * @param {string} gene
+ */
+// @ts-ignore
+function checkGene(gene) {
+  return genoString.search(new RegExp(gene)) !== -1;
+}
+
+/**
+ * @param {string} gene
+ */
+// @ts-ignore
+function checkMut(gene) {
+  return offspring.mutations.indexOf(gene) !== -1;
+}
+
+const listExceptionsTier1 = {
+  black: [
+    ["black", checkGene],
+    [
+      ["aura", "nAu|AuAu", checkGene, "midnight"],
+      ["black-fur", "black-fur", checkMut, "eclipse"],
+      ["canyon-fur", "canyon-fur", checkMut, "dark-oak"],
+      ["cream", "nCr", checkGene, "slate"],
+      ["double-cream", "CrCr", checkGene, "silver"],
+      ["feather-fur", "feather-fur", checkMut, "amazon"],
+      ["dominant-marbled", "MbMb", checkGene, "cobalt"],
+      ["milk-fur", "milk-fur", checkMut, "moonlit"],
+      ["dominant-opaline", "OpOp", checkGene, "crow"],
+      ["sepia", "nSep|SepSep", checkGene, "raven"],
+      ["silvered", "nSlv|SlvSlv", checkGene, "kingsnake"],
+      ["sky-fur", "sky-fur", checkMut, "dreary-black"],
+    ],
+  ],
+  chocolate: [
+    ["chocolate", checkGene],
+    [
+      ["aura", "nAu|AuAu", checkGene, "dark-chocolate"],
+      ["black-fur", "black-fur", checkMut, "obsidian"],
+      ["canyon-fur", "canyon-fur", checkMut, "milk-chocolate"],
+      ["cream", "nCr", checkGene, "foggy"],
+      ["double-cream", "CrCr", checkGene, "misty"],
+      ["feather-fur", "feather-fur", checkMut, "dark-olive"],
+      ["dominant-marbled", "MbMb", checkGene, "riverbed"],
+      ["milk-fur", "milk-fur", checkMut, "cloudy"],
+      ["dominant-opaline", "OpOp", checkGene, "falcon"],
+      ["sepia", "nSep/SepSep", checkGene, "cocoa"],
+      ["silvered", "nSlv/SlvSlv", checkGene, "flea-brown"],
+      ["sky-fur", "sky-fur", checkMut, "pit-viper"],
+    ],
+  ],
+  red: [
+    ["red", checkGene],
+    [
+      ["aura", "nAu|AuAu", checkGene, "maple"],
+      ["black-fur", "black-fur", checkMut, "deep-canyon"],
+      ["canyon-fur", "canyon-fur", checkMut, "fox-red"],
+      ["cream", "nCr", checkGene, "fossil"],
+      ["double-cream", "CrCr", checkGene, "bone"],
+      ["feather-fur", "feather-fur", checkMut, "gold"],
+      ["dominant-marbled", "MbMb", checkGene, "charred"],
+      ["milk-fur", "milk-fur", checkMut, "ivory"],
+      ["dominant-opaline", "OpOp", checkGene, "chipmunk"],
+      ["sepia", "nSep/SepSep", checkGene, "hickory"],
+      ["silvered", "nSlv/SlvSlv", checkGene, "walnut"],
+      ["sky-fur", "sky-fur", checkMut, "twilight"],
+    ],
+  ],
+};
+
+const listExceptionsTier2 = {
+  midnight: [
+    ["midnight", checkGene],
+    [
+      ["cream", "nCr", checkGene, "smokey"],
+      ["double-cream", "CrCr", checkGene, "stone"],
+    ],
+  ],
+  darkOak: [
+    ["dark-oak", checkGene],
+    [
+      ["cream", "nCr", checkGene, "mud"],
+      ["double-cream", "CrCr", checkGene, "coral"],
+    ],
+  ],
+  amazon: [
+    ["amazon", checkGene],
+    [
+      ["cream", "nCr", checkGene, "brush"],
+      ["double-cream", "CrCr", checkGene, "ash"],
+    ],
+  ],
+  cobalt: [
+    ["cobalt", checkGene],
+    [
+      ["cream", "nCr", checkGene, "boulder"],
+      ["double-cream", "CrCr", checkGene, "platinum"],
+    ],
+  ],
+  crow: [
+    ["crow", checkGene],
+    [
+      ["cream", "nCr", checkGene, "mockingbird"],
+      ["double-cream", "CrCr", checkGene, "titmouse"],
+    ],
+  ],
+  raven: [
+    ["raven", checkGene],
+    [
+      ["cream", "nCr", checkGene, "grackle"],
+      ["double-cream", "CrCr", checkGene, "rat-snake"],
+    ],
+  ],
+  drearyBlack: [
+    ["dreary-black", checkGene],
+    [
+      ["cream", "nCr", checkGene, "stormy-black"],
+      ["double-cream", "CrCr", checkGene, "cloudy-sky"],
+    ],
   ],
 };
 
@@ -185,7 +312,7 @@ for (let [key] of Object.entries(listModifiers)) {
   }
 }
 
-// create tabby list automatically
+// create tabby regex list automatically
 /**
  * @param {string} rarity
  */
@@ -202,27 +329,41 @@ function getTabby(rarity) {
   return output.join("|");
 }
 
-// /**
-//  * @param {string} rarity
-//  */
-// function getTabby(rarity) {
-//   let output = [];
-
-//   for (let i = 0; i < listMarkings[rarity].length; i++) {
-//     if (listMarkings[rarity][i][0].search(/tabby/) !== -1) {
-//       output.push(listMarkings[rarity][i]);
-//     }
-//   }
-
-//   return output;
-// }
-
 const listTabbyRegex = {
   common: getTabby("common"),
   uncommon: getTabby("uncommon"),
   rare: getTabby("rare"),
   ultraRare: getTabby("ultraRare"),
   legendary: getTabby("legendary"),
+};
+
+// create modifier regex list automatically
+/**
+ * @param {string} rarity
+ */
+function getModifier(rarity) {
+  let output = [];
+
+  for (let i = 0; i < listModifiers[rarity].length; i++) {
+    if (
+      listModifiers[rarity][i][0].search(
+        /cream|gradient|saddled|doubled|marbled|silvered|sand|aura|opaline/
+      ) === -1
+    ) {
+      let gene = listModifiers[rarity][i][1];
+      output.push(`n${gene}|${gene}${gene}`);
+    }
+  }
+
+  return output.join("|");
+}
+
+const listModifierRegex = {
+  common: getModifier("common"),
+  uncommon: getModifier("uncommon"),
+  rare: getModifier("rare"),
+  ultraRare: getModifier("ultraRare"),
+  legendary: getModifier("legendary"),
 };
 
 // concat and sort listMarkings and listModifiers
@@ -279,28 +420,6 @@ const listRandomPhysMuts = [
   [70, "tailless"],
   [71, "two-tailed"],
 ];
-
-// /**
-//  * @param {array} array
-//  * @param {string} tag
-//  */
-// function checkTag(array, tag) {
-//   return array[2].indexOf(tag) !== -1 || false;
-// }
-
-// const listRandomMutsBonusViperus = [];
-// for (let i = 0; i < listRandomMuts.length; i++) {
-//   if (checkTag(listRandomMuts[i], "viperus")) {
-//     listRandomMutsBonusViperus.push(listRandomMuts[i][1]);
-//   }
-// }
-
-// const listRandomPhysMutsBonusViperus = [];
-// for (let i = 0; i < listRandomPhysMuts.length; i++) {
-//   if (checkTag(listRandomPhysMuts[i], "viperus")) {
-//     listRandomPhysMutsBonusViperus.push(listRandomPhysMuts[i][1]);
-//   }
-// }
 
 const listDefects = [
   [2, "bald-patches"],

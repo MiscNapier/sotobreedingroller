@@ -181,32 +181,41 @@ function output(mode) {
 
   if (mode === rollBreeding) {
     rollLitterSize();
-    litterSize = 2; // litterSize override
+    litterSize = 1; // testing injection
   } else {
     litterSize = 1;
   }
 
   if (litterSize !== 0) {
-    for (let i = 0; i < litterSize; i++) {
+    if (mode === rollBreeding) {
+      for (let i = 0; i < litterSize; i++) {
+        setupObjects();
+        mode();
+        // string = `Geno: ${offspring.geno}`;
+        let string = `Geno: ${offspring.geno}
+        Pheno: ${offspring.pheno}
+        Sex: ${offspring.sex}
+        Stats: ${offspring.stats}
+        Lineage: ${offspring.lineage}
+        Fertility: ${offspring.fertility}`;
+        if (offspring.mutations !== false) {
+          string += `
+          Mutation: ${offspring.mutations}`;
+        }
+        if (offspring.defects !== false) {
+          string += `
+          Defect: ${offspring.defects}`;
+        }
+        string += `
+        Traits: ${offspring.traits}`;
+        output.push(string);
+      }
+    }
+    if (mode === rollRandom) {
       setupObjects();
       mode();
-      // string = `Geno: ${offspring.geno}`;
       let string = `Geno: ${offspring.geno}
-      Pheno: ${offspring.pheno}
-      Sex: ${offspring.sex}
-      Stats: ${offspring.stats}
-      Lineage: ${offspring.lineage}
-      Fertility: ${offspring.fertility}`;
-      if (offspring.mutations !== false) {
-        string += `
-        Mutation: ${offspring.mutations}`;
-      }
-      if (offspring.defects !== false) {
-        string += `
-        Defect: ${offspring.defects}`;
-      }
-      string += `
-      Traits: ${offspring.traits}`;
+      Pheno: ${offspring.pheno}`;
       output.push(string);
     }
   } else {

@@ -9,6 +9,13 @@
 - Purchased APR 2020
 - $360 (discounted current prices to honor price quoted SEP 2019 + $50 fee for additional request)
 
+### Project Duration
+
+- Started MAY 11th 2020
+- Completed JUN 2 2020
+- @est36H
+- @time53H / 16 Sessions
+
 ### Links
 
 - [Reference Doc](https://docs.google.com/document/d/1m2bAa_8vTvp2dIE_dJKvGrqHMD90ZQaOdZEGYSWM8yI/edit)

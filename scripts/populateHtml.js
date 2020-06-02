@@ -53,7 +53,7 @@ function expand(id) {
 // expand("damExpand");
 
 // populate for testing
-document.getElementById("sireGeno").value = `o/Bb/nFr/nBn/ColCol`;
-document.getElementById("damGeno").value = `Oo/Bb/OwOw/RosRos/UnUn/VnVn`;
-document.getElementById("sireStats").value = `10	10	10	10	10	10	10	10	10	10	10	10`;
-document.getElementById("damStats").value = `3	10	3	3	10	0	0	0	0	0	0	0`;
+// document.getElementById("sireGeno").value = `o/Bb/CrCr`;
+// document.getElementById("damGeno").value = `Oo/Bb/nCr/AuAu`;
+// document.getElementById("sireStats").value = `10	10	10	10	10	10	10	10	10	10	10	10`;
+// document.getElementById("damStats").value = `3	10	3	3	10	0	0	0	0	0	0	0`;

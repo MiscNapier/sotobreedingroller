@@ -11,12 +11,6 @@ function setupRollerState() {
   if (parentCheck(sire) && parentCheck(dam)) {
     console.log("Mode: Breeding");
     rollerState = "breeding";
-  } else if (
-    (parentCheck(sire) && !parentCheck(dam)) ||
-    (!parentCheck(sire) && parentCheck(dam))
-  ) {
-    console.log("Mode: Breeding Error");
-    rollerState = "breeding error";
   } else if (!parentCheck(sire) && !parentCheck(dam)) {
     console.log("Mode: Randomizer");
     rollerState = "randomizer";
@@ -122,8 +116,6 @@ function buttonRoll() {
 
   if (rollerState === "breeding") {
     output(rollBreeding);
-  } else if (rollerState === "breeding error") {
-    document.getElementById("output").innerHTML = rollError();
   } else if (rollerState === "randomizer") {
     output(rollRandom);
   }
