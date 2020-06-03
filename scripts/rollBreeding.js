@@ -15,11 +15,13 @@ function rollBreeding() {
   }
 
   function rollStats() {
+    // check if both parent stats are legal
     if (sire.stats.length !== 12 || dam.stats.length !== 12) {
       // error.push("Illegal stats present.");
       return;
     }
 
+    // choose which stats to affect
     let x = [rng(12), rng(12), rng(12)];
 
     while (x[0] === x[1] || x[0] === x[2]) {
@@ -29,12 +31,16 @@ function rollBreeding() {
       x[1] = rng(12);
     }
 
+    // setup
     x.sort();
     offspring.stats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     for (let i = 0; i < 3; i++) {
+      // randomly choose sire or dam stat to pull from
       offspring.stats[x[i] - 1] =
-        randomizer([(sire.stats[x[i] - 1], dam.stats[x[i] - 1])]) * 0.1;
+        randomizer([sire.stats[x[i] - 1], dam.stats[x[i] - 1]]) * 0.1;
+
+      // fix decimal
       if (offspring.stats[x[i] - 1] !== 0) {
         offspring.stats[x[i] - 1] = offspring.stats[x[i] - 1].toFixed(1);
       }
