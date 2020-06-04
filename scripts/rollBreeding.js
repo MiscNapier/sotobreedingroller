@@ -81,7 +81,6 @@ function rollBreeding() {
     let bonusDefects = 0;
     let bonusMutations = 0;
     // @ts-ignore
-    // @ts-ignore
     let bonusPhysicalMutations = 0;
     let bonusViperus = 0;
     let bonusSkirit = 0;
@@ -107,10 +106,10 @@ function rollBreeding() {
       return offspring.lineage.indexOf(lineage) !== -1 || false;
     }
 
-    if (checkLineage("loner")) {
-      bonusMutations -= 10;
-      bonusDefects += 10;
-    }
+    // if (checkLineage("loner")) {
+    //   bonusMutations -= 10;
+    //   bonusDefects += 10;
+    // }
     if (checkLineage("viperus")) {
       bonusViperus += 10;
     }
