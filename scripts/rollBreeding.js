@@ -10,7 +10,7 @@ function rollBreeding() {
       [99, "she-cat"],
       [100, "sexless"],
     ];
-    offspring.sex = rngList(sexList, 100);
+    offspring.sex = rngList(sexList, x);
     // console.log(offspring.sex);
   }
 
@@ -49,18 +49,23 @@ function rollBreeding() {
 
   function rollLineage() {
     // main lineage
-    let odds = [
-      [45, sire.lineage],
-      [100, dam.lineage],
-    ];
-    offspring.lineage[0] = rngList(odds, 100);
+    let newAdditional = [];
+    let x = rng(100);
+    if (x <= 45) {
+      offspring.lineage[0] = sire.lineage;
+      newAdditional[0] = dam.lineage;
+    } else {
+      offspring.lineage[0] = dam.lineage;
+      newAdditional[0] = sire.lineage;
+    }
+
+    // check newAdditional
+    if (offspring.lineage[0] === newAdditional[0]) {
+      newAdditional = [];
+    }
 
     // additional lineage
-    offspring.lineage[1] = sire.lineageAdditional.concat(dam.lineageAdditional);
-
-    // remove main from additional
-    let pos = offspring.lineage[1].indexOf(offspring.lineage[0]) - 1;
-    offspring.lineage[1] = offspring.lineage[1].splice(pos, 1);
+    offspring.lineage[1] = [...sire.lineageAdditional, ...dam.lineageAdditional, ...newAdditional];
   }
 
   function rollFertility() {
@@ -301,6 +306,7 @@ function rollBreeding() {
       ) {
         femaleSireOverride();
         maleDamOverride();
+        console.log(sire.geno, dam.geno);
         logicRed(regexRed);
       }
     })();
@@ -1215,6 +1221,7 @@ function rollBreeding() {
     if (offspring.lineage[0].indexOf("default") === -1) {
       offspring.lineage[0] = offspring.lineage[0].toUpperCase();
       if (offspring.lineage[1].length !== 0) {
+        console.log(offspring.lineage[1]);
         offspring.lineage[1] = sanitizeArray(offspring.lineage[1]);
         offspring.lineage = `${offspring.lineage[0]} | ${offspring.lineage[1]}`;
       } else {
