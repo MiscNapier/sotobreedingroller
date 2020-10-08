@@ -796,10 +796,14 @@ function rollBreeding() {
           checkPassableMuts = true;
         }
         if (gene.search(/piebaldism/) !== -1) {
-          gene = "bicolor";
+          gene = "bicolored";
         }
         if (check && rng(100) + bonus <= odds) {
-          offspring.mutations.push(gene);
+          if (gene === "bicolored") {
+            offspring.geno.push("nBi");
+          } else {
+            offspring.mutations.push(gene);
+          }
         }
       }
 

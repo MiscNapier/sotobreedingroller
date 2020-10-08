@@ -226,11 +226,16 @@ function output(mode) {
   for (let i = 0; i < output.length; i++) {
     let element = document.getElementById("output");
 
+    // error = ["error 1","error 2","no good at all"];
+
     if (i === 0) {
       element.innerText = ``;
       if (error.length !== 0) {
-        element.innerText += `${error[0]}
-        
+        for (let i = 0; i < error.length; i++) {
+          element.innerText += `${error[i]}
+          `;
+        }
+        element.innerText+= `
         `;
       }
       element.innerText += output[i];
