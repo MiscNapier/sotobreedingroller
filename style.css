@@ -141,7 +141,7 @@ option {
   flex-wrap: no-wrap;
   justify-content: flex-start;
   align-items: center;
-  width: 90%;
+  width: 100%;
 }
 
 .wrapperRow {
@@ -165,12 +165,12 @@ option {
 #input {
   background-color: var(--boxTrans-colour);
   border: 1px solid var(--boxTrans-colour);
-  width: 650px;
+  width: 100%;
   user-select: none;
 }
 
 #header {
-  width: 650px;
+  width: 100%;
 }
 
 #itemPills {
@@ -189,7 +189,7 @@ option {
 
 #sire,
 #dam {
-  width: 650px;
+  width: 100%;
 }
 
 #sireTitle,
@@ -269,6 +269,7 @@ select {
 
 #buttonRoll:active {
   background-color: var(--button-colour);
+  filter: brightness(115%);
 }
 
 #buttonRoll:focus {
@@ -300,9 +301,146 @@ select {
   background-color: var(--boxAlt-colour);
   border: 1px solid var(--boxAlt-colour);
   user-select: all;
-  width: 500px;
+  width: 100%;
   color: var(--boxOpaque-colour);
   font-size: 110%;
   word-break: break-word;
   overflow: auto;
+}
+
+@media only screen and (min-width: 600px) {
+  /* wrappers */
+  .wrapperCol {
+    width: 90%;
+  }
+
+  /* input */
+  #input {
+    width: 650px;
+  }
+
+  #header {
+    width: 650px;
+  }
+
+  #sire,
+  #dam {
+    width: 650px;
+  }
+
+  #sireTitle,
+  #damTitle {
+    display: inline-block;
+    width: 90px;
+    margin-right: 7px;
+    text-align: right;
+  }
+
+  #buttonExpand {
+    display: inline-block;
+    position: relative;
+    top: 7px;
+    right: 5px;
+    width: 25px;
+    height: auto;
+  }
+
+  #buttonExpand > svg {
+    fill: var(--font-colour);
+    opacity: 50%;
+    transform: rotate(90deg);
+  }
+
+  #buttonExpand > svg:hover {
+    fill: var(--font-colour);
+    opacity: 75%;
+  }
+
+  #sireExpand {
+    margin-bottom: 20px;
+  }
+
+  #sireExpand,
+  #damExpand {
+    width: 60%;
+    margin: auto;
+  }
+
+  #sireExpand {
+    margin-bottom: 15px;
+  }
+
+  ::placeholder,
+  ::placeholder {
+    color: var(--boxTrans-colour);
+  }
+
+  select {
+    text-transform: capitalize;
+  }
+
+  .label {
+    margin: 6px;
+    font-size: 80%;
+  }
+
+  .dropdownTraits {
+    width: 150px;
+  }
+
+  /* button roll */
+  #buttonRoll {
+    background-color: var(--boxOpaque-colour);
+    border: 0px solid var(--boxOpaque-colour);
+    backdrop-filter: blur(25px);
+    color: var(--font-colour);
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-family: inherit;
+    font-weight: boldest;
+    white-space: no-wrap;
+    outline: none;
+  }
+
+  #buttonRoll:active {
+    background-color: var(--button-colour);
+    filter: brightness(115%);
+  }
+
+  #buttonRoll:focus {
+    outline: 0;
+  }
+
+  @keyframes shake {
+    25% {
+      transform: rotate(5deg);
+    }
+    50% {
+      transform: rotate(-3deg);
+    }
+    75% {
+      transform: rotate(3deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  #buttonRoll:hover {
+    background: var(--boxAlt-colour);
+    animation: shake 0.4s;
+  }
+
+  /* output */
+  #output {
+    background-color: var(--boxAlt-colour);
+    border: 1px solid var(--boxAlt-colour);
+    user-select: all;
+    width: 500px;
+    color: var(--boxOpaque-colour);
+    font-size: 110%;
+    word-break: break-word;
+    overflow: auto;
+  }
 }
